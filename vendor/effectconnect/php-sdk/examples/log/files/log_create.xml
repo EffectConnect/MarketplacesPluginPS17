@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<entries>
+    <entry>
+        <recordedAt>2020-04-08T08:00:00+01:00</recordedAt>
+        <type>Error</type>
+        <code>error_code</code>
+        <message>An error message</message>
+    </entry>
+    <entry>
+        <recordedAt>2020-04-08T08:00:01+01:00</recordedAt>
+        <type>Warning</type>
+        <code>warning_code</code>
+        <message>A warning message</message>
+    </entry>
+    <entry>
+        <recordedAt>2020-04-08T08:00:02+01:00</recordedAt>
+        <type>Notice</type>
+        <code>notice_code</code>
+        <message>A notice</message>
+    </entry>
+    <entry>
+        <recordedAt>2020-04-08T08:00:03+01:00</recordedAt>
+        <type>Success</type>
+        <code>success_code</code>
+        <message>Success message</message>
+    </entry>
+</entries>

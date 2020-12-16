@@ -1,0 +1,236 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% trans_default_domain "Modules.Effectconnectmarketplaces.Admin" %}
+
+{% block content %}
+
+{% if not isAllOrOnlyShopContext %}
+
+  <div class="alert alert-warning" role="alert">
+    <p class="alert-text">{{ 'Please select \'All shops\' in the shop context to edit connections.'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}</p>
+  </div>
+
+{% else %}
+
+  {{ form_start(AdminConnectionForm) }}
+  <div class="row justify-content-center">
+
+    <div class="col-xl-10">
+      <div class="card">
+        <h3 class="card-header">
+          {{ 'Connection details'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}
+        </h3>
+        <div class="card-block row">
+          <div class="card-text">
+            <div class="form-group row">
+              <!--<label class="form-control-label">{{ AdminConnectionForm.is_active.vars.label }}</label>-->
+              {{ ps.label_with_help(AdminConnectionForm.is_active.vars.label, AdminConnectionForm.is_active.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.is_active) }}
+                {{ form_widget(AdminConnectionForm.is_active) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.id_shop.vars.label, AdminConnectionForm.id_shop.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.id_shop) }}
+                {{ form_widget(AdminConnectionForm.id_shop) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.name.vars.label, AdminConnectionForm.name.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.name) }}
+                {{ form_widget(AdminConnectionForm.name) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.public_key.vars.label, AdminConnectionForm.public_key.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.public_key) }}
+                {{ form_widget(AdminConnectionForm.public_key) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.secret_key.vars.label, AdminConnectionForm.secret_key.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.secret_key) }}
+                {{ form_widget(AdminConnectionForm.secret_key) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-between">
+            <a href="{{ path('effectconnect_marketplaces_adminconnection_index') }}" class="btn btn-outline-secondary">
+              {{ 'Cancel'|trans({}, 'Admin.Actions') }}
+            </a>
+            <button class="btn btn-primary">{{ 'Save'|trans({}, 'Admin.Actions') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-10">
+      <div class="card">
+        <h3 class="card-header">
+          {{ 'Catalog export'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}
+        </h3>
+        <div class="card-block row">
+          <div class="card-text">
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.catalog_export_only_active.vars.label, AdminConnectionForm.catalog_export_only_active.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.catalog_export_only_active) }}
+                {{ form_widget(AdminConnectionForm.catalog_export_only_active) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.catalog_export_special_price.vars.label, AdminConnectionForm.catalog_export_special_price.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.catalog_export_special_price) }}
+                {{ form_widget(AdminConnectionForm.catalog_export_special_price) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.catalog_export_add_option_title.vars.label, AdminConnectionForm.catalog_export_add_option_title.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.catalog_export_add_option_title) }}
+                {{ form_widget(AdminConnectionForm.catalog_export_add_option_title) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.catalog_export_ean_leading_zero.vars.label, AdminConnectionForm.catalog_export_ean_leading_zero.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.catalog_export_ean_leading_zero) }}
+                {{ form_widget(AdminConnectionForm.catalog_export_ean_leading_zero) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.catalog_export_skip_invalid_ean.vars.label, AdminConnectionForm.catalog_export_skip_invalid_ean.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.catalog_export_skip_invalid_ean) }}
+                {{ form_widget(AdminConnectionForm.catalog_export_skip_invalid_ean) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-between">
+            <a href="{{ path('effectconnect_marketplaces_adminconnection_index') }}" class="btn btn-outline-secondary">
+              {{ 'Cancel'|trans({}, 'Admin.Actions') }}
+            </a>
+            <button class="btn btn-primary">{{ 'Save'|trans({}, 'Admin.Actions') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-10">
+      <div class="card">
+        <h3 class="card-header">
+          {{ 'Order import'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}
+        </h3>
+        <div class="card-block row">
+          <div class="card-text">
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.order_import_id_group.vars.label, AdminConnectionForm.order_import_id_group.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.order_import_id_group) }}
+                {{ form_widget(AdminConnectionForm.order_import_id_group) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.order_import_id_carrier.vars.label, AdminConnectionForm.order_import_id_carrier.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.order_import_id_carrier) }}
+                {{ form_widget(AdminConnectionForm.order_import_id_carrier) }}
+                <small class="form-text">{{ 'Make sure the carrier is available for the selected customer group.'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}</small>
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.order_import_id_payment_module.vars.label, AdminConnectionForm.order_import_id_payment_module.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.order_import_id_payment_module) }}
+                {{ form_widget(AdminConnectionForm.order_import_id_payment_module) }}
+                <small class="form-text">{{ 'Make sure the payment method is available for selected customer group and the selected carrier.'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}</small>
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.order_import_external_fulfilment.vars.label, AdminConnectionForm.order_import_external_fulfilment.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.order_import_external_fulfilment) }}
+                {{ form_widget(AdminConnectionForm.order_import_external_fulfilment) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.order_import_send_emails.vars.label, AdminConnectionForm.order_import_send_emails.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.order_import_send_emails) }}
+                {{ form_widget(AdminConnectionForm.order_import_send_emails) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-between">
+            <a href="{{ path('effectconnect_marketplaces_adminconnection_index') }}" class="btn btn-outline-secondary">
+              {{ 'Cancel'|trans({}, 'Admin.Actions') }}
+            </a>
+            <button class="btn btn-primary">{{ 'Save'|trans({}, 'Admin.Actions') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {{ form_widget(AdminConnectionForm.id_connection) }}
+  {{ form_rest(AdminConnectionForm) }}
+  {{ form_end(AdminConnectionForm) }}
+
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+      $('#admin_connection_form_id_shop').change(function () {
+        updateGroupList(this);
+        updateCarrierList(this);
+        updatePaymentMethodsList(this);
+      }).trigger('change');
+
+      function updateGroupList(e)
+      {
+        let idShop       = $(e).val();
+        let groupOptions = $("#admin_connection_form_order_import_id_group option");
+        updateList(idShop, groupOptions);
+      }
+
+      function updateCarrierList(e)
+      {
+        let idShop         = $(e).val();
+        let carrierOptions = $("#admin_connection_form_order_import_id_carrier option");
+        updateList(idShop, carrierOptions);
+      }
+
+      function updatePaymentMethodsList(e)
+      {
+        let idShop         = $(e).val();
+        let carrierOptions = $("#admin_connection_form_order_import_id_payment_module option");
+        updateList(idShop, carrierOptions);
+      }
+
+      function updateList(idShop, optionElements)
+      {
+        optionElements.prop('disabled', false);
+        let optionElementsToDisable = optionElements.filter(function() {
+          let shopIds = $(this).data('shop-id');
+          return typeof shopIds !== 'undefined' && $.inArray(idShop, shopIds) === -1;
+        });
+        optionElementsToDisable.prop('disabled', true);
+        optionElementsToDisable.prop('selected', false);
+      }
+  </script>
+{% endblock %}

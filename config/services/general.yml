@@ -1,0 +1,126 @@
+services:
+
+  effectconnect.marketplaces.object.category_language:
+    class: EffectConnect\Marketplaces\LegacyWrappers\CategoryLanguage
+    arguments:
+      - '@prestashop.adapter.data_provider.category'
+
+  effectconnect.marketplaces.service.product_search.product_search_provider:
+    class: EffectConnect\Marketplaces\Service\ProductSearch\ProductSearchProvider
+
+  effectconnect.marketplaces.helper.logger_helper:
+    class: EffectConnect\Marketplaces\Helper\LoggerHelper
+
+  effectconnect.marketplaces.service.transformer.abstract_transformer:
+    class: EffectConnect\Marketplaces\Service\Transformer\AbstractTransformer
+    arguments:
+      - '@effectconnect.marketplaces.service.init_context'
+      - '@prestashop.adapter.legacy.context'
+      - '@prestashop.adapter.data_provider.currency'
+
+  effectconnect.marketplaces.service.transformer.catalog_export_transformer:
+    class: EffectConnect\Marketplaces\Service\Transformer\CatalogExportTransformer
+    parent: 'effectconnect.marketplaces.service.transformer.abstract_transformer'
+    arguments:
+      - '@effectconnect.marketplaces.helper.logger_helper'
+      - '@prestashop.adapter.legacy.configuration'
+      - '@prestashop.adapter.data_provider.product'
+      - '@prestashop.adapter.data_provider.feature'
+      - '@prestashop.adapter.data_provider.category'
+      - '@effectconnect.marketplaces.object.category_language'
+      - '@effectconnect.marketplaces.service.product_search.product_search_provider'
+      - '@prestashop.adapter.formatter.price'
+
+  effectconnect.marketplaces.service.transformer.offer_export_transformer:
+    class: EffectConnect\Marketplaces\Service\Transformer\OfferExportTransformer
+    parent: 'effectconnect.marketplaces.service.transformer.catalog_export_transformer'
+
+  effectconnect.marketplaces.service.transformer.order_import_transformer:
+    class: EffectConnect\Marketplaces\Service\Transformer\OrderImportTransformer
+    parent: 'effectconnect.marketplaces.service.transformer.abstract_transformer'
+    arguments:
+      - '@effectconnect.marketplaces.helper.logger_helper'
+
+  effectconnect.marketplaces.service.api.abstract_api:
+    class: EffectConnect\Marketplaces\Service\Api\AbstractApi
+
+  effectconnect.marketplaces.service.api.catalog_export_api:
+    class: EffectConnect\Marketplaces\Service\Api\CatalogExportApi
+    parent: 'effectconnect.marketplaces.service.api.abstract_api'
+    arguments:
+      - '@effectconnect.marketplaces.helper.logger_helper'
+      - '@effectconnect.marketplaces.service.transformer.catalog_export_transformer'
+
+  effectconnect.marketplaces.service.api.offer_export_api:
+    class: EffectConnect\Marketplaces\Service\Api\OfferExportApi
+    parent: 'effectconnect.marketplaces.service.api.abstract_api'
+    arguments:
+      - '@effectconnect.marketplaces.helper.logger_helper'
+      - '@effectconnect.marketplaces.service.transformer.offer_export_transformer'
+
+  effectconnect.marketplaces.service.api.tracking_export_api:
+    parent: 'effectconnect.marketplaces.service.api.abstract_api'
+    class: EffectConnect\Marketplaces\Service\Api\TrackingExportApi
+    arguments:
+      - '@effectconnect.marketplaces.helper.logger_helper'
+
+  effectconnect.marketplaces.service.api.order_import_api:
+    class: EffectConnect\Marketplaces\Service\Api\OrderImportApi
+    parent: 'effectconnect.marketplaces.service.api.abstract_api'
+    arguments:
+      - '@effectconnect.marketplaces.helper.logger_helper'
+      - '@effectconnect.marketplaces.service.transformer.order_import_transformer'
+
+  effectconnect.marketplaces.catalog_export_command:
+    class: EffectConnect\Marketplaces\Command\CatalogExportCommand
+    tags:
+      - { name: 'console.command' }
+    arguments:
+      - '@effectconnect.marketplaces.service.api.catalog_export_api'
+
+  effectconnect.marketplaces.offer_export_command:
+    class: EffectConnect\Marketplaces\Command\OfferExportCommand
+    tags:
+      - { name: 'console.command' }
+    arguments:
+      - '@effectconnect.marketplaces.service.api.offer_export_api'
+
+  effectconnect.marketplaces.offer_export_handle_queue_command:
+    class: EffectConnect\Marketplaces\Command\OfferExportHandleQueueCommand
+    tags:
+      - { name: 'console.command' }
+    arguments:
+      - '@effectconnect.marketplaces.service.api.offer_export_api'
+
+  effectconnect.marketplaces.order_import_command:
+    class: EffectConnect\Marketplaces\Command\OrderImportCommand
+    tags:
+      - { name: 'console.command' }
+    arguments:
+      - '@effectconnect.marketplaces.service.api.order_import_api'
+
+  effectconnect.marketplaces.tracking_export_command:
+    class: EffectConnect\Marketplaces\Command\TrackingExportCommand
+    tags:
+      - { name: 'console.command' }
+    arguments:
+      - '@effectconnect.marketplaces.service.api.tracking_export_api'
+
+  effectconnect.marketplaces.file_clean_command:
+    class: EffectConnect\Marketplaces\Command\FileCleanCommand
+    tags:
+      - { name: 'console.command' }
+
+  effectconnect.marketplaces.service.init_context:
+    class: EffectConnect\Marketplaces\Service\InitContext
+    arguments:
+      - '@prestashop.adapter.legacy.context'
+
+  effectconnect.marketplaces.legacy_wrappers.legacy_shop_context:
+    class: EffectConnect\Marketplaces\LegacyWrappers\LegacyShopContext
+
+  effectconnect.marketplaces.manager.translation_manager:
+    class: EffectConnect\Marketplaces\Manager\TranslationManager
+    arguments:
+      - '@prestashop.service.translation'
+      - '@prestashop.cache.refresh'

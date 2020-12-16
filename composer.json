@@ -1,0 +1,21 @@
+{
+  "name": "effectconnect/marketplaces-plugin-prestashop",
+  "authors": [
+    {
+      "name": "EffectConnect",
+      "email": "info@effectconnect.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "EffectConnect\\Marketplaces\\": "src/"
+    },
+    "config": {
+      "prepend-autoloader": false
+    },
+    "type": "prestashop-module"
+  },
+  "require": {
+    "effectconnect/php-sdk": "^3.2"
+  }
+}

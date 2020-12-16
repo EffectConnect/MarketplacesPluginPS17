@@ -1,0 +1,140 @@
+services:
+
+  # Grid definition factory
+  effectconnect_marketplaces.adminconnection.grid_definition_factory:
+    class: 'EffectConnect\Marketplaces\Grid\AdminConnectionGridDefinitionFactory'
+    parent: 'prestashop.core.grid.definition.factory.abstract_grid_definition'
+    arguments:
+      - "@=service('router').generate('admin_common_reset_search', {'controller': 'adminconnection', 'action': 'index'})"
+      - "@=service('router').generate('effectconnect_marketplaces_adminconnection_index')"
+    public: true
+
+  # Grid query builder
+  effectconnect_marketplaces.adminconnection.adminconnectiongrid.query_builder:
+    class: 'EffectConnect\Marketplaces\Grid\AdminConnectionGridQueryBuilder'
+    parent: 'prestashop.core.grid.abstract_query_builder'
+    public: true
+
+  # Grid data provider
+  effectconnect_marketplaces.adminconnection.data_factory:
+    class: 'PrestaShop\PrestaShop\Core\Grid\Data\Factory\DoctrineGridDataFactory'
+    arguments:
+      - '@effectconnect_marketplaces.adminconnection.adminconnectiongrid.query_builder'
+      - '@prestashop.core.hook.dispatcher'
+      - '@prestashop.core.grid.query.doctrine_query_parser'
+      - 'adminconnectiongrid'
+
+  # Grid factory which will use our grid definition factory and data provider services
+  effectconnect_marketplaces.adminconnection.grid_factory:
+    class: 'PrestaShop\PrestaShop\Core\Grid\GridFactory'
+    arguments:
+      - '@effectconnect_marketplaces.adminconnection.grid_definition_factory'
+      - '@effectconnect_marketplaces.adminconnection.data_factory'
+      - '@prestashop.core.grid.filter.form_factory'
+      - '@prestashop.core.hook.dispatcher'
+
+  # Form
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_type:
+    class: 'EffectConnect\Marketplaces\Form\AdminConnectionFormType'
+    arguments:
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.shop_choice_type'
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.invalid_ean_choice_type'
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.carrier_choice_type'
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.payment_module_choice_type'
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.external_fulfilment_choice_type'
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.group_choice_type'
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
+
+  # Shop form type
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.shop_choice_type:
+    class: 'EffectConnect\Marketplaces\Form\Type\ShopChoiceType'
+    arguments:
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.shop_choice_type'
+    parent: 'form.type.common_type'
+    public: true
+    tags:
+      - { name: form.type }
+
+  # Shop form type customer group choice provider
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.group_choice_type:
+    class: 'EffectConnect\Marketplaces\Form\Type\ChoiceProvider\GroupChoiceProvider'
+    public: true
+    arguments:
+      - '@effectconnect.marketplaces.service.init_context'
+
+  # Shop form type shop choice provider
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.shop_choice_type:
+    class: 'EffectConnect\Marketplaces\Form\Type\ChoiceProvider\ShopChoiceProvider'
+    public: true
+    arguments:
+      - '@prestashop.adapter.form.choice_provider.shop_tree_choice_provider'
+
+  # Shop form type invalid ean choice provider
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.invalid_ean_choice_type:
+    class: 'EffectConnect\Marketplaces\Form\Type\ChoiceProvider\InvalidEANChoiceProvider'
+    public: true
+    arguments:
+      - '@translator'
+
+  # Shop form type external fulfilment choice provider
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.external_fulfilment_choice_type:
+    class: 'EffectConnect\Marketplaces\Form\Type\ChoiceProvider\ExternalFulfilmentChoiceProvider'
+    public: true
+    arguments:
+      - '@translator'
+
+  # Shop form type payment module choice provider
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.payment_module_choice_type:
+    class: 'EffectConnect\Marketplaces\Form\Type\ChoiceProvider\PaymentModuleChoiceProvider'
+    public: true
+    arguments:
+      - '@translator'
+      - '@prestashop.adapter.module.payment_module_provider'
+
+  # Shop form carrier choice provider
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.carrier_choice_type:
+    class: 'EffectConnect\Marketplaces\Form\Type\ChoiceProvider\CarrierChoiceProvider'
+    public: true
+    arguments:
+      - '@effectconnect.marketplaces.service.init_context'
+
+  # Form DataProvider
+  effectconnect_marketplaces.adminconnection.adminconnectionform.data_provider:
+    class: 'EffectConnect\Marketplaces\Form\AdminConnectionDataProvider'
+    public: true
+
+  # Form DataHandler
+  effectconnect_marketplaces.adminconnection.adminconnectionform.data_handler:
+    class: 'EffectConnect\Marketplaces\Form\AdminConnectionDataHandler'
+    public: true
+
+  # Form Handler
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_handler:
+    class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler'
+    factory: 'prestashop.core.form.identifiable_object.handler.form_handler_factory:create'
+    arguments:
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.data_handler'
+
+  # Form Builder
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_builder:
+    class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder'
+    factory: 'prestashop.core.form.builder.form_builder_factory:create'
+    arguments:
+      - 'EffectConnect\Marketplaces\Form\AdminConnectionFormType'
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.data_provider'
+
+  # Controller
+  EffectConnect\Marketplaces\Controller\AdminConnectionController:
+    public: true
+    class: EffectConnect\Marketplaces\Controller\AdminConnectionController
+    arguments:
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_builder'
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_handler'
+      - '@effectconnect_marketplaces.adminconnection.grid_definition_factory'
+      - '@effectconnect_marketplaces.adminconnection.grid_factory'
+      - '@prestashop.core.grid.filter.form_factory'
+      - '@prestashop.core.grid.presenter.grid_presenter'
+      - '@effectconnect.marketplaces.legacy_wrappers.legacy_shop_context'

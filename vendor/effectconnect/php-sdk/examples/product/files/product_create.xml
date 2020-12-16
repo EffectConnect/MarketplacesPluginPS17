@@ -1,0 +1,493 @@
+<?xml version="1.0"?>
+<products>
+    <product>
+        <identifier>1</identifier>
+        <brand>Brand-1</brand>
+        <categories>
+            <category>
+                <id>1</id>
+                <titles>
+                    <title language="nl">Categorie 1</title>
+                    <title language="en">Category 1</title>
+                </titles>
+                <children>
+                    <category>
+                        <id>10</id>
+                        <titles>
+                            <title language="nl">Categorie 1.1</title>
+                            <title language="en">Category 1.1</title>
+                        </titles>
+                    </category>
+                </children>
+            </category>
+            <category>
+                <id>2</id>
+                <titles>
+                    <title language="nl">Categorie 2</title>
+                    <title language="en">Category 2</title>
+                </titles>
+                <children>
+                    <category>
+                        <id>21</id>
+                        <titles>
+                            <title language="nl">Categorie 2.2</title>
+                            <title language="en">Category 2.2</title>
+                        </titles>
+                        <children>
+                            <category>
+                                <id>210</id>
+                                <titles>
+                                    <title language="nl">Categorie 2.2.1</title>
+                                    <title language="en">Category 2.2.1</title>
+                                </titles>
+                            </category>
+                        </children>
+                    </category>
+                </children>
+            </category>
+        </categories>
+        <options>
+            <option>
+                <identifier>1</identifier>
+                <cost>6.50</cost>
+                <price>12.50</price>
+                <priceOriginal>15.00</priceOriginal>
+                <stock>7</stock>
+                <titles>
+                    <title language="nl">Optie 1</title>
+                    <title language="en">Option 1</title>
+                </titles>
+                <urls>
+                    <url language="nl">https://go.effectconnect.com/nl/test-1</url>
+                    <url language="en">https://go.effectconnect.com/en/test-1</url>
+                </urls>
+                <descriptions>
+                    <description language="nl"><![CDATA[Product beschrijving.]]></description>
+                    <description language="en"><![CDATA[Product description.]]></description>
+                </descriptions>
+                <ean>1234567890123</ean>
+                <sku>OPTION-1</sku>
+                <deliveryTime>Voor 16:00 besteld, morgen in huis</deliveryTime>
+                <images>
+                    <image>
+                        <url>https://go.effectconnect.com/image-1</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a</md5checksum>
+                        <order>1</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-2</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1b</md5checksum>
+                        <order>2</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-3</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1c</md5checksum>
+                        <order>3</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-4</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1d</md5checksum>
+                        <order>4</order>
+                    </image>
+                </images>
+                <attributes>
+                    <attribute>
+                        <code>color</code>
+                        <names>
+                            <name language="nl">Kleur</name>
+                            <name language="en">Color</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>red</code>
+                                <names>
+                                    <name language="nl">Rood</name>
+                                    <name language="en">Red</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                    <attribute>
+                        <code>size</code>
+                        <names>
+                            <name language="nl">Maat</name>
+                            <name language="en">Size</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>l</code>
+                                <names>
+                                    <name language="nl">L</name>
+                                    <name language="en">L</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                    <attribute>
+                        <code>length</code>
+                        <names>
+                            <name language="nl">Lengte</name>
+                            <name language="en">Length</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>120cm</code>
+                                <names>
+                                    <name language="nl">120cm</name>
+                                    <name language="en">120cm</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                </attributes>
+            </option>
+            <option>
+                <identifier>2</identifier>
+                <cost>6.50</cost>
+                <price>12.50</price>
+                <priceOriginal>15.00</priceOriginal>
+                <stock>7</stock>
+                <titles>
+                    <title language="nl">Optie 2</title>
+                    <title language="en">Option 2</title>
+                </titles>
+                <urls>
+                    <url language="nl">https://go.effectconnect.com/nl/test-2</url>
+                    <url language="en">https://go.effectconnect.com/en/test-2</url>
+                </urls>
+                <descriptions>
+                    <description language="nl"><![CDATA[Product 2 beschrijving.]]></description>
+                    <description language="en"><![CDATA[Product 2 description.]]></description>
+                </descriptions>
+                <ean>1234567890124</ean>
+                <sku>OPTION-2</sku>
+                <deliveryTime>Voor 16:00 besteld, morgen in huis</deliveryTime>
+                <images>
+                    <image>
+                        <url>https://go.effectconnect.com/image-1</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a</md5checksum>
+                        <order>1</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-2</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1b</md5checksum>
+                        <order>2</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-3</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1c</md5checksum>
+                        <order>3</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-4</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1d</md5checksum>
+                        <order>4</order>
+                    </image>
+                </images>
+                <attributes>
+                    <attribute>
+                        <code>color</code>
+                        <names>
+                            <name language="nl">Kleur</name>
+                            <name language="en">Color</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>blue</code>
+                                <names>
+                                    <name language="nl">Blauw</name>
+                                    <name language="en">Blue</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                    <attribute>
+                        <code>size</code>
+                        <names>
+                            <name language="nl">Maat</name>
+                            <name language="en">Size</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>l</code>
+                                <names>
+                                    <name language="nl">L</name>
+                                    <name language="en">L</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                    <attribute>
+                        <code>length</code>
+                        <names>
+                            <name language="nl">Lengte</name>
+                            <name language="en">Length</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>120cm</code>
+                                <names>
+                                    <name language="nl">120cm</name>
+                                    <name language="en">120cm</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                </attributes>
+            </option>
+        </options>
+    </product>
+    <product>
+        <identifier>2</identifier>
+        <brand>Brand-1</brand>
+        <categories>
+            <category>
+                <id>1</id>
+                <titles>
+                    <title language="nl">Categorie 1</title>
+                    <title language="en">Category 1</title>
+                </titles>
+                <children>
+                    <category>
+                        <id>10</id>
+                        <titles>
+                            <title language="nl">Categorie 1.1</title>
+                            <title language="en">Category 1.1</title>
+                        </titles>
+                    </category>
+                </children>
+            </category>
+            <category>
+                <id>2</id>
+                <titles>
+                    <title language="nl">Categorie 2</title>
+                    <title language="en">Category 2</title>
+                </titles>
+                <children>
+                    <category>
+                        <id>21</id>
+                        <titles>
+                            <title language="nl">Categorie 2.2</title>
+                            <title language="en">Category 2.2</title>
+                        </titles>
+                        <children>
+                            <category>
+                                <id>210</id>
+                                <titles>
+                                    <title language="nl">Categorie 2.2.1</title>
+                                    <title language="en">Category 2.2.1</title>
+                                </titles>
+                            </category>
+                        </children>
+                    </category>
+                </children>
+            </category>
+        </categories>
+        <options>
+            <option>
+                <identifier>6</identifier>
+                <cost>6.50</cost>
+                <price>12.50</price>
+                <priceOriginal>15.00</priceOriginal>
+                <stock>7</stock>
+                <titles>
+                    <title language="nl">Optie 3</title>
+                    <title language="en">Option 3</title>
+                </titles>
+                <urls>
+                    <url language="nl">https://go.effectconnect.com/nl/test-1</url>
+                    <url language="en">https://go.effectconnect.com/en/test-1</url>
+                </urls>
+                <descriptions>
+                    <description language="nl"><![CDATA[Product beschrijving.]]></description>
+                    <description language="en"><![CDATA[Product description.]]></description>
+                </descriptions>
+                <ean>1234567890125</ean>
+                <sku>OPTION-3</sku>
+                <deliveryTime>Voor 16:00 besteld, morgen in huis</deliveryTime>
+                <images>
+                    <image>
+                        <url>https://go.effectconnect.com/image-1</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a</md5checksum>
+                        <order>1</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-2</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1b</md5checksum>
+                        <order>2</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-3</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1c</md5checksum>
+                        <order>3</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-4</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1d</md5checksum>
+                        <order>4</order>
+                    </image>
+                </images>
+                <attributes>
+                    <attribute>
+                        <code>color</code>
+                        <names>
+                            <name language="nl">Kleur</name>
+                            <name language="en">Color</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>red</code>
+                                <names>
+                                    <name language="nl">Rood</name>
+                                    <name language="en">Red</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                    <attribute>
+                        <code>size</code>
+                        <names>
+                            <name language="nl">Maat</name>
+                            <name language="en">Size</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>l</code>
+                                <names>
+                                    <name language="nl">L</name>
+                                    <name language="en">L</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                    <attribute>
+                        <code>length</code>
+                        <names>
+                            <name language="nl">Lengte</name>
+                            <name language="en">Length</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>120cm</code>
+                                <names>
+                                    <name language="nl">120cm</name>
+                                    <name language="en">120cm</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                </attributes>
+            </option>
+            <option>
+                <identifier>7</identifier>
+                <cost>6.50</cost>
+                <price>12.50</price>
+                <priceOriginal>15.00</priceOriginal>
+                <stock>7</stock>
+                <titles>
+                    <title language="nl">Optie 4</title>
+                    <title language="en">Option 4</title>
+                </titles>
+                <urls>
+                    <url language="nl">https://go.effectconnect.com/nl/test-2</url>
+                    <url language="en">https://go.effectconnect.com/en/test-2</url>
+                </urls>
+                <descriptions>
+                    <description language="nl"><![CDATA[Product 2 beschrijving.]]></description>
+                    <description language="en"><![CDATA[Product 2 description.]]></description>
+                </descriptions>
+                <ean>1234567890126</ean>
+                <sku>OPTION-4</sku>
+                <deliveryTime>Voor 16:00 besteld, morgen in huis</deliveryTime>
+                <images>
+                    <image>
+                        <url>https://go.effectconnect.com/image-1</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a</md5checksum>
+                        <order>1</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-2</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1b</md5checksum>
+                        <order>2</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-3</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1c</md5checksum>
+                        <order>3</order>
+                    </image>
+                    <image>
+                        <url>https://go.effectconnect.com/image-4</url>
+                        <size>1234</size>
+                        <md5checksum>1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1d</md5checksum>
+                        <order>4</order>
+                    </image>
+                </images>
+                <attributes>
+                    <attribute>
+                        <code>color</code>
+                        <names>
+                            <name language="nl">Kleur</name>
+                            <name language="en">Color</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>blue</code>
+                                <names>
+                                    <name language="nl">Blauw</name>
+                                    <name language="en">Blue</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                    <attribute>
+                        <code>size</code>
+                        <names>
+                            <name language="nl">Maat</name>
+                            <name language="en">Size</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>l</code>
+                                <names>
+                                    <name language="nl">L</name>
+                                    <name language="en">L</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                    <attribute>
+                        <code>length</code>
+                        <names>
+                            <name language="nl">Lengte</name>
+                            <name language="en">Length</name>
+                        </names>
+                        <values>
+                            <value>
+                                <code>120cm</code>
+                                <names>
+                                    <name language="nl">120cm</name>
+                                    <name language="en">120cm</name>
+                                </names>
+                            </value>
+                        </values>
+                    </attribute>
+                </attributes>
+            </option>
+        </options>
+    </product>
+</products>

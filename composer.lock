@@ -1,0 +1,63 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "923842e275676d5e38ebe852965207c1",
+    "packages": [
+        {
+            "name": "effectconnect/php-sdk",
+            "version": "3.2.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EffectConnect/EffectConnectSDK.git",
+                "reference": "e24a4d6ae41cab01ac94fcaac73bcd5102b23ec4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EffectConnect/EffectConnectSDK/zipball/e24a4d6ae41cab01ac94fcaac73bcd5102b23ec4",
+                "reference": "e24a4d6ae41cab01ac94fcaac73bcd5102b23ec4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EffectConnect\\PHPSdk\\": "EffectConnectSDK/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Stefan Van den Heuvel",
+                    "email": "stefan@koekenpeer.nl",
+                    "homepage": "https://www.effectconnect.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Our PHP SDK for basic API integration",
+            "homepage": "https://www.effectconnect.com",
+            "keywords": [
+                "api",
+                "effectconnect",
+                "php",
+                "sdk"
+            ],
+            "time": "2020-07-15T14:48:35+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

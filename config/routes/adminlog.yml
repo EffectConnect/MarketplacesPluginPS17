@@ -1,0 +1,17 @@
+# Index
+effectconnect_marketplaces_admin_log_index:
+  path: /effectconnect_marketplaces/log
+  methods: [GET]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminLogController::indexAction'
+    _legacy_controller: 'AdminLogControllerLegacyClass'
+    _legacy_link: 'AdminLogControllerLegacyClass'
+
+# Download logs
+effectconnect_marketplaces_admin_log_download:
+  path: /effectconnect_marketplaces/log/download
+  methods: [GET]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminLogController::downloadAction'
+    _legacy_controller: 'AdminLogControllerLegacyClass'
+    _legacy_link: 'AdminLogControllerLegacyClass'

@@ -1,0 +1,64 @@
+<div class="card mt-2 d-print-none">
+
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="card-header-title">
+                    {{ 'EffectConnect Marketplaces'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row mb-1">
+            <div class="col-6">{{ 'Connection'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}:</div>
+            <div class="col-6">{{ EffectConnectOrder.id_connection }}</div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-6">{{ 'Order number'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}:</div>
+            <div class="col-6">{{ EffectConnectOrder.ec_marketplaces_identification_number }}</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-6">{{ 'Channel number'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}:</div>
+            <div class="col-6">{{ EffectConnectOrder.ec_marketplaces_channel_number }}</div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-6">{{ 'Is shipped'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}:</div>
+            <div class="col-6">{{ EffectConnectOrder.is_shipped }}</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-6">{{ 'Shipping status exported'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}:</div>
+            <div class="col-6">
+                {% if EffectConnectOrder.shipped_exported_at %}
+                    {{ EffectConnectOrder.shipped_exported_at|date('d-m-Y H:i') }}
+                {% else %}
+                    {{ 'No'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}
+                {%  endif %}
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-6">{{ 'Carrier'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}:</div>
+            <div class="col-6">{{ EffectConnectOrder.carrier_name }}</div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-6">{{ 'Tracking number'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}:</div>
+            <div class="col-6">{{ EffectConnectOrder.tracking_number }}</div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-6">{{ 'Tracking info exported'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}:</div>
+            <div class="col-6">
+                {% if EffectConnectOrder.tracking_exported_at %}
+                    {{ EffectConnectOrder.tracking_exported_at|date('d-m-Y H:i') }}
+                {% else %}
+                    {{ 'No'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}
+                {%  endif %}
+            </div>
+        </div>
+
+    </div>
+
+</div>

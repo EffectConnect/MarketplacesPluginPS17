@@ -1,0 +1,38 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% trans_default_domain "Modules.Effectconnectmarketplaces.Admin" %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10">
+            <div class="card">
+                <h3 class="card-header">
+                    {{ 'Log details'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}
+                </h3>
+                <div class="card-block row">
+                    <div class="col-sm">
+                        <p>{{ 'The Effectconnect Markplaces plugin generates log and export files in the following folder:'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}</p>
+                        <p><kbd>{{ dataFolder }}</kbd></p>
+                        <p>{{ 'These files can be used by the Effectconnect support team to inspect errors. Use the download button below.'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}</p>
+                        <p class="mb-0">{{ 'The files are cleaned after %s days.'|trans({}, 'Modules.Effectconnectmarketplaces.Admin')|format(fileExpirationDays) }}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ path('effectconnect_marketplaces_admin_log_download') }}" class="btn btn-primary">
+                            {{ 'Download logs'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

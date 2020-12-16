@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>effectconnect_marketplaces</name>
+	<displayName><![CDATA[EffectConnect - Marketplaces]]></displayName>
+	<version><![CDATA[1.0.0]]></version>
+	<description><![CDATA[EffectConnect Marketplaces Prestashop plugin]]></description>
+	<author><![CDATA[EffectConnect]]></author>
+	<tab><![CDATA[market_place]]></tab>
+	<confirmUninstall><![CDATA[Are you sure you want to uninstall the EffectConnect Marketplaces module?]]></confirmUninstall>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+</module>

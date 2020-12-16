@@ -1,0 +1,2 @@
+_effectconnect_marketplaces_routing:
+  resource: routes/*.yml

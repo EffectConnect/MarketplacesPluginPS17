@@ -1,0 +1,87 @@
+# Index
+effectconnect_marketplaces_adminconnection_index:
+  path: /effectconnect_marketplaces/connection
+  methods: [GET]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminConnectionController::indexAction'
+    _legacy_controller: 'AdminConnectionControllerLegacyClass'
+    _legacy_link: 'AdminConnectionControllerLegacyClass'
+
+# Search
+effectconnect_marketplaces_adminconnection_search:
+  path: /effectconnect_marketplaces/connection
+  methods: [POST]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminConnectionController::searchAction'
+    _legacy_controller: 'AdminConnectionControllerLegacyClass'
+    _legacy_link: 'AdminConnectionControllerLegacyClass'
+
+# Toggle active
+effectconnect_marketplaces_adminconnection_active_toggle:
+  path: /effectconnect_marketplaces/connection/toggle_active/{recordId}
+  methods: [POST]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminConnectionController::toggleActiveAction'
+    _legacy_controller: 'AdminConnectionControllerLegacyClass'
+    _legacy_link: 'AdminConnectionControllerLegacyClass'
+    _legacy_parameters:
+      id_documenttype: recordId
+  requirements:
+    recordId: \d+
+
+# Delete
+effectconnect_marketplaces_adminconnection_delete:
+  path: /effectconnect_marketplaces/connection/delete/{recordId}
+  methods: [GET]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminConnectionController::deleteAction'
+    _legacy_controller: 'AdminConnectionControllerLegacyClass'
+    _legacy_link: 'AdminConnectionControllerLegacyClass'
+    _legacy_parameters:
+      id_documenttype: recordId
+  requirements:
+    recordId: \d+
+
+# Add
+effectconnect_marketplaces_adminconnection_add:
+  path: /effectconnect_marketplaces/connection/add
+  methods: [GET]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminConnectionController::addAction'
+    _legacy_controller: 'AdminConnectionControllerLegacyClass'
+    _legacy_link: 'AdminConnectionControllerLegacyClass'
+
+# Add (Insert)
+effectconnect_marketplaces_adminconnection_insert:
+  path: /effectconnect_marketplaces/connection/add
+  methods: [POST]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminConnectionController::addAction'
+    _legacy_controller: 'AdminConnectionControllerLegacyClass'
+    _legacy_link: 'AdminConnectionControllerLegacyClass'
+
+# Edit
+effectconnect_marketplaces_adminconnection_edit:
+  path: /effectconnect_marketplaces/connection/edit/{recordId}
+  methods: [GET]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminConnectionController::editAction'
+    _legacy_controller: 'AdminConnectionControllerLegacyClass'
+    _legacy_link: 'AdminConnectionControllerLegacyClass'
+    _legacy_parameters:
+      id_documenttype: recordId
+  requirements:
+    recordId: \d+
+
+# Edit (Update)
+effectconnect_marketplaces_adminconnection_update:
+  path: /effectconnect_marketplaces/connection/edit/{recordId}
+  methods: [POST]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminConnectionController::editAction'
+    _legacy_controller: 'AdminConnectionControllerLegacyClass'
+    _legacy_link: 'AdminConnectionControllerLegacyClass'
+    _legacy_parameters:
+      id_documenttype: recordId
+  requirements:
+    recordId: \d+

@@ -1,0 +1,26 @@
+{
+  "name": "effectconnect/php-sdk",
+  "license": "proprietary",
+  "description": "Our PHP SDK for basic API integration",
+  "keywords": [
+    "effectconnect",
+    "api",
+    "sdk",
+    "php"
+  ],
+  "authors": [
+    {
+      "name": "Stefan Van den Heuvel",
+      "email": "stefan@koekenpeer.nl",
+      "homepage": "https://www.effectconnect.com",
+      "role": "Lead Developer"
+    }
+  ],
+  "homepage": "https://www.effectconnect.com",
+  "require": {
+    "php": ">=5.5"
+  },
+  "autoload": {
+    "psr-4": {"EffectConnect\\PHPSdk\\": "EffectConnectSDK/"}
+  }
+}

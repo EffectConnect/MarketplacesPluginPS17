@@ -1,0 +1,26 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% trans_default_domain "Modules.Effectconnectmarketplaces.Admin" %}
+
+{%
+set layoutHeaderToolbarBtn = {
+  'add': {
+    'href': path('effectconnect_marketplaces_adminconnection_add'),
+    'desc': 'Add new connection'|trans({}, 'Modules.Effectconnectmarketplaces.Admin'),
+    'icon': 'add_circle_outline'
+  }
+}
+%}
+
+{% block content %}
+  <div class="row">
+    <div class="col">
+      {% include '@PrestaShop/Admin/Common/Grid/grid_panel.html.twig' with {'grid': AdminConnectionGrid} %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('../modules/effectconnect_marketplaces/views/assets/js/adminconnectioncontroller.js') }}"></script>
+{% endblock %}
