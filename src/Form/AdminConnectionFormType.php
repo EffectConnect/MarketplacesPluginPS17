@@ -3,6 +3,7 @@
 namespace EffectConnect\Marketplaces\Form;
 
 use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\CarrierChoiceProvider;
+use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\EmployeeChoiceProvider;
 use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\ExternalFulfilmentChoiceProvider;
 use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\GroupChoiceProvider;
 use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\InvalidEANChoiceProvider;
@@ -56,6 +57,11 @@ class AdminConnectionFormType extends TranslatorAwareType
     protected $_groupChoiceProvider;
 
     /**
+     * @var EmployeeChoiceProvider
+     */
+    protected $_employeeChoiceProvider;
+
+    /**
      * AdminConnectionFormType constructor.
      * @param TranslatorInterface $translator
      * @param array $locales
@@ -65,6 +71,7 @@ class AdminConnectionFormType extends TranslatorAwareType
      * @param PaymentModuleChoiceProvider $paymentModuleChoiceProvider
      * @param ExternalFulfilmentChoiceProvider $externalFulfilmentChoiceProvider
      * @param GroupChoiceProvider $groupChoiceProvider
+     * @param EmployeeChoiceProvider $employeeChoiceProvider
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -74,7 +81,8 @@ class AdminConnectionFormType extends TranslatorAwareType
         CarrierChoiceProvider $carrierChoiceProvider,
         PaymentModuleChoiceProvider $paymentModuleChoiceProvider,
         ExternalFulfilmentChoiceProvider $externalFulfilmentChoiceProvider,
-        GroupChoiceProvider $groupChoiceProvider
+        GroupChoiceProvider $groupChoiceProvider,
+        EmployeeChoiceProvider $employeeChoiceProvider
     ) {
         $this->_shopChoiceProvider               = $shopChoiceProvider;
         $this->_invalidEANChoiceProvider         = $invalidEANChoiceProvider;
@@ -82,6 +90,7 @@ class AdminConnectionFormType extends TranslatorAwareType
         $this->_paymentModuleChoiceProvider      = $paymentModuleChoiceProvider;
         $this->_externalFulfilmentChoiceProvider = $externalFulfilmentChoiceProvider;
         $this->_groupChoiceProvider              = $groupChoiceProvider;
+        $this->_employeeChoiceProvider           = $employeeChoiceProvider;
         parent::__construct($translator, $locales);
     }
 
@@ -170,6 +179,14 @@ class AdminConnectionFormType extends TranslatorAwareType
                 'constraints' => [new NotBlank()],
                 'label'       => $this->trans('Payment method', 'Modules.Effectconnectmarketplaces.Admin'),
                 'help'        => $this->trans('The payment method for each imported order.', 'Modules.Effectconnectmarketplaces.Admin'),
+            ])
+            ->add('order_import_id_employee', ChoiceType::class, [
+                'choices'     => $this->_employeeChoiceProvider->getChoices(),
+                'choice_attr' => $this->_employeeChoiceProvider->getChoicesAttributes(),
+                'required'    => true,
+                'constraints' => [new NotBlank()],
+                'label'       => $this->trans('Employee', 'Modules.Effectconnectmarketplaces.Admin'),
+                'help'        => $this->trans('The employee each imported order is assigned to (used by Prestashop for order history and stock update logs)', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
             ->add('order_import_external_fulfilment', ChoiceType::class, [
                 'choices'    => $this->_externalFulfilmentChoiceProvider->getChoices(),

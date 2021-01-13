@@ -70,3 +70,5 @@
 "Actions","Acties"
 "Make sure the carrier is available for the selected customer group.","Zorg ervoor dat de vervoerder beschikbaar is voor de geselecteerde klantgroep."
 "Make sure the payment method is available for selected customer group and the selected carrier.","Zorg ervoor dat de betaalmethode beschikbaar is voor de geselecteerde klantgroep en de geselecteerde vervoerder."
+"Employee","Admin gebruiker"
+"The employee each imported order is assigned to (used by Prestashop for order history and stock update logs)","De admin gebruiker waaraan geïmporteerde orders worden toegekend (door Prestashop wordt deze gebruikt om order historie en voorraad updates op te slaan)"

@@ -43,6 +43,7 @@ services:
       - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.payment_module_choice_type'
       - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.external_fulfilment_choice_type'
       - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.group_choice_type'
+      - '@effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.employee_type'
     parent: 'form.type.translatable.aware'
     public: true
     tags:
@@ -64,6 +65,11 @@ services:
     public: true
     arguments:
       - '@effectconnect.marketplaces.service.init_context'
+
+  # Shop form type employee choice provider
+  effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.employee_type:
+    class: 'EffectConnect\Marketplaces\Form\Type\ChoiceProvider\EmployeeChoiceProvider'
+    public: true
 
   # Shop form type shop choice provider
   effectconnect_marketplaces.adminconnection.adminconnectionform.form_type.choice_provider.shop_choice_type:

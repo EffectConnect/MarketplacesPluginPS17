@@ -9,7 +9,6 @@ use EffectConnect\Marketplaces\Service\InitContext;
 use Monolog\Logger;
 use PrestaShop\PrestaShop\Adapter\Currency\CurrencyDataProvider;
 use PrestaShop\PrestaShop\Adapter\LegacyContext;
-use PrestaShopException;
 
 /**
  * Class AbstractTransformer
@@ -83,12 +82,8 @@ class AbstractTransformer
         $this->_connection = $connection;
 
         // Init context.
-        try {
-            $this->_initContext->initContext();
-            $this->_initContext->setShop($this->_connection->id_shop); // TODO: unfortunately in PS 1.7.6.5 this is still necessary
-        } catch (PrestaShopException $e) {
-            throw new InitContextFailedException();
-        }
+        $this->_initContext->initContext($connection);
+        $this->_initContext->setShop($this->_connection->id_shop); // TODO: unfortunately in PS 1.7.6.5 this is still necessary
 
         // Load language data.
         $this->loadLanguageData();

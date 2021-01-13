@@ -5,9 +5,12 @@ namespace EffectConnect\Marketplaces\Service;
 use AdminController;
 use Context;
 use Currency;
+use EffectConnect\Marketplaces\Exception\InitContextFailedException;
+use EffectConnect\Marketplaces\Model\Connection;
 use Employee;
 use PrestaShop\PrestaShop\Adapter\LegacyContext;
 use PrestaShopException;
+use PrestaShopDatabaseException;
 use Shop;
 
 /**
@@ -32,29 +35,49 @@ class InitContext
     }
 
     /**
-     * @throws PrestaShopException
+     * @param Connection $connection
+     * @throws InitContextFailedException
      */
-    public function initContext()
+    public function initContext(Connection $connection)
     {
-        // We need to have an employee or the module hooks don't work (see LegacyHookSubscriber).
-        if (!$this->_legacyContext->getContext()->employee) {
-            // Even a non existing employee is fine.
-            $this->_legacyContext->getContext()->employee = new Employee();
+        try {
+            // We need to have an employee or the module hooks don't work (see LegacyHookSubscriber).
+            if (!$this->_legacyContext->getContext()->employee) {
+                $employee = new Employee($connection->order_import_id_employee);
+
+                if (intval($employee->id) === 0) {
+                    throw new InitContextFailedException('Employee ' . intval($connection->order_import_id_employee). ' init failed (employee does not exist)');
+                }
+
+                $this->_legacyContext->getContext()->employee = $employee;
+            }
+        } catch (PrestaShopException $e) {
+            throw new InitContextFailedException('Employee ' . intval($connection->order_import_id_employee). ' init failed (PrestaShopException)');
+        } catch (PrestaShopDatabaseException $e) {
+            throw new InitContextFailedException('Employee ' . intval($connection->order_import_id_employee). ' init failed (PrestaShopDatabaseException)');
         }
 
-        // Also we need to have a controller type.
-        $adminController = new AdminController();
-        $adminController->initShopContext();
+        try {
+            // Also we need to have a controller type.
+            $adminController = new AdminController();
+            $adminController->initShopContext();
+        } catch (PrestaShopException $e) {
+            throw new InitContextFailedException('Shop init failed');
+        }
     }
 
     /**
      * @param int $idShop
-     * @throws PrestaShopException
+     * @throws InitContextFailedException
      */
     public function setShop(int $idShop)
     {
-        $this->_legacyContext->getContext()->shop = new Shop($idShop);
-        Shop::setContext(Shop::CONTEXT_SHOP, $idShop);
+        try {
+            $this->_legacyContext->getContext()->shop = new Shop($idShop);
+            Shop::setContext(Shop::CONTEXT_SHOP, $idShop);
+        } catch (PrestaShopException $e) {
+            throw new InitContextFailedException('Shop set ' . intval($idShop) . ' failed');
+        }
     }
 
     /**

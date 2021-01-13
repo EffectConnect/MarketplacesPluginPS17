@@ -157,6 +157,13 @@
               </div>
             </div>
             <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.order_import_id_employee.vars.label, AdminConnectionForm.order_import_id_employee.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.order_import_id_employee) }}
+                {{ form_widget(AdminConnectionForm.order_import_id_employee) }}
+              </div>
+            </div>
+            <div class="form-group row">
               {{ ps.label_with_help(AdminConnectionForm.order_import_external_fulfilment.vars.label, AdminConnectionForm.order_import_external_fulfilment.vars.help) }}
               <div class="col-sm">
                 {{ form_errors(AdminConnectionForm.order_import_external_fulfilment) }}

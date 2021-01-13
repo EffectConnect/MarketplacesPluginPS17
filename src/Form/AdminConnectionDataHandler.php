@@ -54,6 +54,7 @@ class AdminConnectionDataHandler implements FormDataHandlerInterface
         $record->order_import_id_group            = intval($data['order_import_id_group']);
         $record->order_import_id_carrier          = intval($data['order_import_id_carrier']);
         $record->order_import_id_payment_module   = intval($data['order_import_id_payment_module']);
+        $record->order_import_id_employee         = intval($data['order_import_id_employee']);
         $record->order_import_external_fulfilment = $data['order_import_external_fulfilment'];
         $record->order_import_send_emails         = intval($data['order_import_send_emails']);
 

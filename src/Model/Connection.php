@@ -81,6 +81,11 @@ class Connection extends AbstractModel
     public $order_import_id_payment_module = 0;
 
     /**
+     * @var int
+     */
+    public $order_import_id_employee = 0;
+
+    /**
      * @var string
      */
     public $order_import_external_fulfilment = ExternalFulfilment::INTERNAL_ORDERS;
@@ -158,6 +163,11 @@ class Connection extends AbstractModel
                 'required' => true,
                 'validate' => 'isUnsignedInt'
             ],
+            'order_import_id_employee' => [
+                'type'     => self::TYPE_INT,
+                'required' => true,
+                'validate' => 'isUnsignedInt'
+            ],
             'order_import_external_fulfilment' => [
                 'type'     => self::TYPE_STRING,
                 'required' => true,
@@ -206,11 +216,21 @@ class Connection extends AbstractModel
                     `order_import_id_group` INT(11) UNSIGNED NOT NULL,
                     `order_import_id_carrier` INT(11) UNSIGNED NOT NULL,
                     `order_import_id_payment_module` INT(11) UNSIGNED NOT NULL,
+                    `order_import_id_employee` INT(11) UNSIGNED NOT NULL,
                     `order_import_external_fulfilment` VARCHAR(64) NOT NULL,
                     `order_import_send_emails` TINYINT(1) NOT NULL DEFAULT \'0\',
                     PRIMARY KEY (`id_connection`)
                     ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8')
             ;
+    }
+
+    /**
+     * Version 3.1.0 database migration.
+     * @return bool
+     */
+    public static function addDbFieldOrderImportIdEmployee()
+    {
+        return Db::getInstance()->execute('ALTER TABLE  `' . _DB_PREFIX_ . self::$definition['table'] . '` ADD COLUMN `order_import_id_employee` INT(11) UNSIGNED NOT NULL AFTER `order_import_id_payment_module`');
     }
 
     /**
