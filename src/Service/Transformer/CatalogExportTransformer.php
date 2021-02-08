@@ -409,7 +409,7 @@ class CatalogExportTransformer extends AbstractTransformer
             'identifier'    => $identifier,
             'sku'           => $sku,
             'stock'         => $this->getStock($product, $idCombination),
-            'cost'          => number_format($this->convertPriceToEuro($wholeSalePrice), 2),
+            'cost'          => number_format($this->convertPriceToEuro($wholeSalePrice), 2, '.', ''),
             'titles'        => [
                 'title' => $titles
             ],
@@ -418,9 +418,9 @@ class CatalogExportTransformer extends AbstractTransformer
         // Product prices
         $price                        = $this->getPrice($product, $idCombination);
         $priceOriginal                = $this->getPriceOriginal($product, $idCombination);
-        $productOptionExport['price'] = number_format($price, 2);
+        $productOptionExport['price'] = number_format($price, 2, '.', '');
         if ($priceOriginal !== null && $priceOriginal > $price) {
-            $productOptionExport['priceOriginal'] = number_format($priceOriginal, 2);
+            $productOptionExport['priceOriginal'] = number_format($priceOriginal, 2, '.', '');
         }
 
         // EAN
@@ -1041,7 +1041,7 @@ class CatalogExportTransformer extends AbstractTransformer
      */
     protected function getStock(Product $product, int $idCombination = null)
     {
-        return Product::getQuantity($product->id, $idCombination);
+        return min(Product::getQuantity($product->id, $idCombination), 9999);
     }
 
     /**

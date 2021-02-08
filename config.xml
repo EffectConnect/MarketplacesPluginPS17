@@ -2,7 +2,7 @@
 <module>
 	<name>effectconnect_marketplaces</name>
 	<displayName><![CDATA[EffectConnect - Marketplaces]]></displayName>
-	<version><![CDATA[3.1.0]]></version>
+	<version><![CDATA[3.1.1]]></version>
 	<description><![CDATA[EffectConnect Marketplaces Prestashop plugin]]></description>
 	<author><![CDATA[EffectConnect]]></author>
 	<tab><![CDATA[market_place]]></tab>
