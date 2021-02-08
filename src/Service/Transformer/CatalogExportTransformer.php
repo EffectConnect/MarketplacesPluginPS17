@@ -221,6 +221,17 @@ class CatalogExportTransformer extends AbstractTransformer
                     continue;
                 }
 
+                if (empty($productArray)) {
+                    $this->_logger->info('Skipping product because it is empty.', [
+                        'process'    => static::LOGGER_PROCESS,
+                        'id_product' => $idProduct,
+                        'connection' => [
+                            'id' => $this->getConnection()->id
+                        ]
+                    ]);
+                    continue;
+                }
+
                 try {
                     $xmlHelper->append($productArray, 'product');
                 } catch (DOMException $e) {
@@ -234,10 +245,11 @@ class CatalogExportTransformer extends AbstractTransformer
                     ]);
                     continue;
                 }
+
+                $totalProductCount++;
             }
 
-            $page              += static::PAGE_SIZE;
-            $totalProductCount += $result->getTotalProductsCount();
+            $page += static::PAGE_SIZE;
         }
         while ($result->getTotalProductsCount() > $page);
 
