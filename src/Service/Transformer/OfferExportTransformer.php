@@ -112,15 +112,15 @@ class OfferExportTransformer extends CatalogExportTransformer
         $productOptionExport = [
             'identifier' => $identifier,
             'stock'      => $this->getStock($product, $idCombination),
-            'cost'       => number_format($this->convertPriceToEuro($wholeSalePrice), 2),
+            'cost'       => number_format($this->convertPriceToEuro($wholeSalePrice), 2, '.', ''),
         ];
 
         // Product prices
         $price                        = $this->getPrice($product, $idCombination);
         $priceOriginal                = $this->getPriceOriginal($product, $idCombination);
-        $productOptionExport['price'] = number_format($price, 2);
+        $productOptionExport['price'] = number_format($price, 2, '.', '');
         if ($priceOriginal !== null && $priceOriginal > $price) {
-            $productOptionExport['priceOriginal'] = number_format($priceOriginal, 2);
+            $productOptionExport['priceOriginal'] = number_format($priceOriginal, 2, '.', '');
         }
 
         // Delivery time
