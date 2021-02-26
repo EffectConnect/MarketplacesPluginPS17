@@ -507,8 +507,8 @@ class OrderImportTransformer extends AbstractTransformer
     protected function processOrder(EffectConnectOrder $order, Cart $cart, PaymentModule $paymentModule)
     {
         try {
-            // This will actually save the order to database.
-            $result = $paymentModule->validateOrder(
+            // This will actually save the order to database - we suppress warnings that externally plugins may throw (for example blockgiftlistpro).
+            $result = @$paymentModule->validateOrder(
                 intval($cart->id),
                 $this->getOrderState($order),
                 $cart->getOrderTotal(true, Cart::BOTH), // We use (true, Cart::BOTH), because this is the same way this is done in PaymentModule::validateOrder()
