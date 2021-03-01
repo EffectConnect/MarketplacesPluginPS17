@@ -462,7 +462,7 @@ class OrderImportTransformer extends AbstractTransformer
         $cart->setDeliveryOption($deliveryOption);
 
         // By fetching the delivery option after setting it, we can verify if it was a valid carrier for current cart.
-        if (false === $cart->getDeliveryOption(null,true)) {
+        if (false === $cart->getDeliveryOption(null, true)) {
             // TODO: select other carrier to make sure the order is imported anyway?
             throw new OrderImportFailedException($this->getConnection()->id, 'Create cart - carrier ' . $this->getConnection()->order_import_id_carrier . ' is invalid');
         }
@@ -683,6 +683,9 @@ class OrderImportTransformer extends AbstractTransformer
             $groups[] = $customerGroupId;
             $customer->updateGroup($groups);
         }
+
+        // Reset customer group cache, otherwise later on when adding a carrier, we don't get our added group.
+        Customer::resetAddressCache();
 
         return true;
     }
