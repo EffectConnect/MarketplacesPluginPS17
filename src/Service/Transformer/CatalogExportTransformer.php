@@ -773,7 +773,8 @@ class CatalogExportTransformer extends AbstractTransformer
      */
     protected function getProductAttributes(Product $product)
     {
-        $attributesExport = [];
+        $attributesExport      = [];
+        $attributeValuesExport = [];
         $features = $product->getFeatures();
 
         if (count($features) > 0)
@@ -808,7 +809,7 @@ class CatalogExportTransformer extends AbstractTransformer
                 }
 
                 //
-                // Get attribute value names - TODO: for now we assume each Prestashop feature can only have one value!
+                // Get attribute value names
                 //
 
                 $attributeValueNames = [];
@@ -831,20 +832,20 @@ class CatalogExportTransformer extends AbstractTransformer
                     continue;
                 }
 
-                $attributeValue = [
+                $attributeValuesExport[$idFeature][$idFeatureValue] = [
                     'code'   => $idFeatureValue,
                     'names' => [
                         'name' => $attributeValueNames,
                     ],
                 ];
 
-                $attributesExport[] = [
+                $attributesExport[$idFeature] = [
                     'code'   => $idFeature,
                     'names' => [
                         'name' => $attributeNames,
                     ],
                     'values' => [
-                        'value' => $attributeValue,
+                        'value' => $attributeValuesExport[$idFeature],
                     ],
                 ];
             }
