@@ -144,3 +144,4 @@ services:
       - '@prestashop.core.grid.filter.form_factory'
       - '@prestashop.core.grid.presenter.grid_presenter'
       - '@effectconnect.marketplaces.legacy_wrappers.legacy_shop_context'
+      - '@prestashop.module.manager'

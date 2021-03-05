@@ -192,7 +192,7 @@ class Connection extends AbstractModel
     {
         $this->order_import_id_group          = Configuration::getGlobalValue(ConfigurationKeys::EC_DEFAULT_CUSTOMER_GROUP_ID);
         $this->order_import_id_carrier        = Configuration::getGlobalValue(ConfigurationKeys::EC_DEFAULT_CARRIER_ID);
-        $this->order_import_id_payment_module = 0; // TODO
+        $this->order_import_id_payment_module = Configuration::getGlobalValue(ConfigurationKeys::EC_DEFAULT_PAYMENT_MODULE_ID);
         parent::__construct($id, $id_lang, $id_shop);
     }
 

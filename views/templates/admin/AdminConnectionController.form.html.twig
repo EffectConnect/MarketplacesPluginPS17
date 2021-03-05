@@ -151,6 +151,26 @@
             <div class="form-group row">
               {{ ps.label_with_help(AdminConnectionForm.order_import_id_payment_module.vars.label, AdminConnectionForm.order_import_id_payment_module.vars.help) }}
               <div class="col-sm">
+                {% if paymentModuleHasSymlink and not paymentModuleExists %}
+                  <div class="alert alert-danger" role="alert">
+                    <div>{{ 'It\'s recommended to use the EffectConnect Marketplaces Payment module, but it could not be found. Please contact the support team.'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}</div>
+                  </div>
+                {% else %}
+                  {% if not paymentModuleIsActive %}
+                    <div class="alert alert-danger" role="alert">
+                      <div>{{ 'The EffectConnect Marketplaces plugin includes a payment module. It\'s recommended to use this payment module, because we can\'t expect other payment methods to be compatible with our plugin. To use it, please install and enable it.'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}</div>
+                      <div>
+                        <a href="#" onclick="return showModal('#confirm_activate_payment_modal')" class="mt-2 btn btn-outline-secondary">
+                          {{ 'Install and enable payment module'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}
+                        </a>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="alert alert-info" role="alert">
+                      <div>{{ 'It\'s recommended to use the EffectConnect Marketplaces Payment module, because we can\'t expect other payment methods to be compatible with our plugin.'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}</div>
+                    </div>
+                  {% endif %}
+                {% endif %}
                 {{ form_errors(AdminConnectionForm.order_import_id_payment_module) }}
                 {{ form_widget(AdminConnectionForm.order_import_id_payment_module) }}
                 <small class="form-text">{{ 'Make sure the payment method is available for selected customer group and the selected carrier.'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}</small>
@@ -197,6 +217,25 @@
 
 {% endif %}
 
+{# Confirmation activate payment module #}
+{% embed '@PrestaShop/Admin/Helpers/bootstrap_popup.html.twig' with {
+  'id': "confirm_activate_payment_modal",
+  'title': "Install and enable payment module?"|trans({}, 'Admin.Catalog.Feature'),
+  'closable': true,
+  'actions': [{
+    'type': 'link',
+    'href': path('effectconnect_marketplaces_adminconnection_install_payment_module'),
+    'label': "Install and enable module"|trans({}, 'Modules.Effectconnectmarketplaces.Admin'),
+    'class': 'btn btn-primary btn-lg',
+  }],
+}%}
+  {% block content %}
+    <div class="modal-body">
+      {{ 'This action will navigate away from the current page and unsaved changes could be lost. Make sure to save them before you continue.'|trans({}, 'Modules.Effectconnectmarketplaces.Admin') }}
+    </div>
+  {% endblock %}
+{% endembed %}
+
 {% endblock %}
 
 {% block javascripts %}
@@ -238,6 +277,12 @@
         });
         optionElementsToDisable.prop('disabled', true);
         optionElementsToDisable.prop('selected', false);
+      }
+
+      function showModal(modalId)
+      {
+        $(modalId).modal('show');
+        return false;
       }
   </script>
 {% endblock %}

@@ -85,3 +85,12 @@ effectconnect_marketplaces_adminconnection_update:
       id_documenttype: recordId
   requirements:
     recordId: \d+
+
+# Activate symlink for payment module
+effectconnect_marketplaces_adminconnection_install_payment_module:
+  path: /effectconnect_marketplaces/connection/install_payment_module
+  methods: [GET]
+  defaults:
+    _controller: 'EffectConnect\Marketplaces\Controller\AdminConnectionController::installPaymentModuleAction'
+    _legacy_controller: 'AdminConnectionControllerLegacyClass'
+    _legacy_link: 'AdminConnectionControllerLegacyClass'

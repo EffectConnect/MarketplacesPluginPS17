@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>effectconnect_marketplacespayment</name>
+	<displayName><![CDATA[EffectConnect - Marketplaces Payment]]></displayName>
+	<version><![CDATA[2.0.0]]></version>
+	<description><![CDATA[Used as a payment module for importing EffectConnect orders.]]></description>
+	<author><![CDATA[EffectConnect]]></author>
+	<tab><![CDATA[payments_gateways]]></tab>
+	<confirmUninstall><![CDATA[Are you sure you want to uninstall the EffectConnect Marketplaces Payment module?]]></confirmUninstall>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+</module>

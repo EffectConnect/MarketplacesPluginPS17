@@ -2,6 +2,8 @@
 
 namespace EffectConnect\Marketplaces\Controller;
 
+use Configuration;
+use EffectConnect\Marketplaces\Enums\ConfigurationKeys;
 use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\CarrierChoiceProvider;
 use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\PaymentModuleChoiceProvider;
 use EffectConnect\Marketplaces\Grid\AdminConnectionGridDefinitionFactory;
@@ -9,6 +11,7 @@ use EffectConnect\Marketplaces\Filter\AdminConnectionFilter;
 use EffectConnect\Marketplaces\LegacyWrappers\LegacyShopContext;
 use EffectConnect\Marketplaces\Model\Connection;
 use Exception;
+use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManager;
 use PrestaShop\PrestaShop\Core\Grid\Filter\GridFilterFormFactory;
 use PrestaShop\PrestaShop\Core\Grid\GridFactory;
 use PrestaShop\PrestaShop\Core\Grid\Presenter\GridPresenter;
@@ -26,6 +29,16 @@ use Validate;
  */
 class AdminConnectionController extends FrameworkBundleAdminController
 {
+    /**
+     * @var string
+     */
+    protected $paymentModulePath = __DIR__ . '/../../../effectconnect_marketplacespayment';
+
+    /**
+     * @var string
+     */
+    protected $paymentModuleName = 'effectconnect_marketplacespayment';
+
     /**
      * @var FormBuilder
      */
@@ -72,7 +85,13 @@ class AdminConnectionController extends FrameworkBundleAdminController
     protected $_paymentModuleChoiceProvider;
 
     /**
+     * @var ModuleManager
+     */
+    protected $_moduleManager;
+
+    /**
      * AdminConnectionController constructor.
+     *
      * @param FormBuilder $formBuilder
      * @param FormHandler $formHandler
      * @param AdminConnectionGridDefinitionFactory $gridDefinitionFactory
@@ -80,6 +99,7 @@ class AdminConnectionController extends FrameworkBundleAdminController
      * @param GridFilterFormFactory $gridFilterFormFactory
      * @param GridPresenter $gridPresenter
      * @param LegacyShopContext $legacyShopContext
+     * @param ModuleManager $moduleManager
      */
     public function __construct(
         FormBuilder $formBuilder,
@@ -88,7 +108,8 @@ class AdminConnectionController extends FrameworkBundleAdminController
         GridFactory $gridFactory,
         GridFilterFormFactory $gridFilterFormFactory,
         GridPresenter $gridPresenter,
-        LegacyShopContext $legacyShopContext
+        LegacyShopContext $legacyShopContext,
+        ModuleManager $moduleManager
     ) {
         $this->_formBuilder                 = $formBuilder;
         $this->_formHandler                 = $formHandler;
@@ -97,6 +118,7 @@ class AdminConnectionController extends FrameworkBundleAdminController
         $this->_gridFilterFormFactory       = $gridFilterFormFactory;
         $this->_gridPresenter               = $gridPresenter;
         $this->_legacyShopContext           = $legacyShopContext;
+        $this->_moduleManager               = $moduleManager;
         parent::__construct();
     }
 
@@ -154,11 +176,14 @@ class AdminConnectionController extends FrameworkBundleAdminController
         }
 
         return $this->render('@Modules/effectconnect_marketplaces/views/templates/admin/AdminConnectionController.form.html.twig', [
-            'layoutTitle'            => $this->trans('Add connection', 'Modules.Effectconnectmarketplaces.Admin'),
-            'requireAddonsSearch'    => false,
-            'enableSidebar'          => true,
-            'AdminConnectionForm'    => $form->createView(),
-            'isAllOrOnlyShopContext' => $this->_legacyShopContext->isAllOrOnlyShopContext(),
+            'layoutTitle'             => $this->trans('Add connection', 'Modules.Effectconnectmarketplaces.Admin'),
+            'requireAddonsSearch'     => false,
+            'enableSidebar'           => true,
+            'AdminConnectionForm'     => $form->createView(),
+            'isAllOrOnlyShopContext'  => $this->_legacyShopContext->isAllOrOnlyShopContext(),
+            'paymentModuleHasSymlink' => $this->paymentModuleHasSymlink(),
+            'paymentModuleIsActive'   => $this->paymentModuleIsActive(),
+            'paymentModuleExists'     => $this->paymentModuleExists()
         ]);
     }
 
@@ -184,11 +209,14 @@ class AdminConnectionController extends FrameworkBundleAdminController
         }
 
         return $this->render('@Modules/effectconnect_marketplaces/views/templates/admin/AdminConnectionController.form.html.twig', [
-            'layoutTitle'            => $this->trans('Edit connection', 'Modules.Effectconnectmarketplaces.Admin'),
-            'requireAddonsSearch'    => false,
-            'enableSidebar'          => true,
-            'AdminConnectionForm'    => $form->createView(),
-            'isAllOrOnlyShopContext' => $this->_legacyShopContext->isAllOrOnlyShopContext(),
+            'layoutTitle'             => $this->trans('Edit connection', 'Modules.Effectconnectmarketplaces.Admin'),
+            'requireAddonsSearch'     => false,
+            'enableSidebar'           => true,
+            'AdminConnectionForm'     => $form->createView(),
+            'isAllOrOnlyShopContext'  => $this->_legacyShopContext->isAllOrOnlyShopContext(),
+            'paymentModuleHasSymlink' => $this->paymentModuleHasSymlink(),
+            'paymentModuleIsActive'   => $this->paymentModuleIsActive(),
+            'paymentModuleExists'     => $this->paymentModuleExists()
         ]);
     }
 
@@ -244,5 +272,109 @@ class AdminConnectionController extends FrameworkBundleAdminController
             $this->addFlash('error', $e->getMessage());
         }
         return $this->redirectToRoute('effectconnect_marketplaces_adminconnection_index');
+    }
+
+    /**
+     * @return bool
+     */
+    protected function paymentModuleHasSymlink()
+    {
+        return is_link($this->paymentModulePath);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function paymentModuleExists()
+    {
+        return file_exists($this->paymentModulePath);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function paymentModuleIsActive()
+    {
+        return $this->_moduleManager->isInstalled($this->paymentModuleName) && $this->_moduleManager->isEnabled($this->paymentModuleName);
+    }
+
+    /**
+     * TODO:
+     *   - by default all customer groups and all carriers are assigned to a new installed payment module. Is this ok?
+     *   - move this logic to PaymentModuleManager?
+     *   - activate when installing main module instead of a user action?
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function installPaymentModuleAction(Request $request)
+    {
+        // Do we have to create a symlink for the module?
+        if (!$this->paymentModuleHasSymlink()) {
+            try {
+                $result = symlink('effectconnect_marketplaces/payment', $this->paymentModulePath);
+                if ($result !== true) {
+                    $this->addFlash('error', $this->trans('The payment module could not be symlinked.', 'Modules.Effectconnectmarketplaces.Admin'));
+                    return $this->redirect($request->headers->get('referer'));
+                }
+            } catch (Exception $e) {
+                $this->addFlash('error', $this->trans('The payment module could not be symlinked (message: %s).', 'Modules.Effectconnectmarketplaces.Admin', [$e->getMessage()]));
+                return $this->redirect($request->headers->get('referer'));
+            }
+        }
+
+        // Is the module correctly symlinked?
+        if (!$this->paymentModuleExists()) {
+            $this->addFlash('error', $this->trans('The payment module is not correctly symlinked.', 'Modules.Effectconnectmarketplaces.Admin', [$e->getMessage()]));
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        // Is the module already installed and enabled?
+        if ($this->paymentModuleIsActive()) {
+            $this->addFlash('success', $this->trans('The payment module was already installed and can be used now.', 'Modules.Effectconnectmarketplaces.Admin', [$e->getMessage()]));
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        // Do we have to enable the module?
+        if ($this->_moduleManager->isInstalled($this->paymentModuleName) && !$this->_moduleManager->isEnabled($this->paymentModuleName)) {
+            try {
+                $result = $this->_moduleManager->enable($this->paymentModuleName);
+                if ($result !== true) {
+                    $this->addFlash('error', $this->trans('The payment module could not be enabled.', 'Modules.Effectconnectmarketplaces.Admin'));
+                    return $this->redirect($request->headers->get('referer'));
+                } else {
+                    $this->addFlash('success', $this->trans('The payment module was successfully enabled and can be used now.', 'Modules.Effectconnectmarketplaces.Admin'));
+                    return $this->redirect($request->headers->get('referer'));
+                }
+            } catch (Exception $e) {
+                $this->addFlash('error', $this->trans('The payment module could not be enabled (message: %s).', 'Modules.Effectconnectmarketplaces.Admin', [$e->getMessage()]));
+                return $this->redirect($request->headers->get('referer'));
+            }
+        }
+
+        // Do we have to install the module?
+        if (!$this->_moduleManager->isInstalled($this->paymentModuleName)) {
+            try {
+                $result = $this->_moduleManager->install($this->paymentModuleName);
+                if ($result !== true) {
+                    $this->addFlash('error', $this->trans('The payment module could not be installed.', 'Modules.Effectconnectmarketplaces.Admin'));
+                    return $this->redirect($request->headers->get('referer'));
+                } else {
+                    // Save our module ID to the configuration
+                    $ecPaymentModuleId = $this->_moduleManager->getModuleIdByName($this->paymentModuleName);
+                    Configuration::updateGlobalValue(ConfigurationKeys::EC_DEFAULT_PAYMENT_MODULE_ID, $ecPaymentModuleId);
+
+                    $this->addFlash('success', $this->trans('The payment module was successfully installed and can be used now.', 'Modules.Effectconnectmarketplaces.Admin'));
+                    return $this->redirect($request->headers->get('referer'));
+                }
+            } catch (Exception $e) {
+                $this->addFlash('error', $this->trans('The payment module could not be installed (message: %s).', 'Modules.Effectconnectmarketplaces.Admin', [$e->getMessage()]));
+                return $this->redirect($request->headers->get('referer'));
+            }
+        }
+
+        // TODO: test compatibility
+        //return $this->redirectToRoute('effectconnect_marketplaces_adminconnection_index');
+        return $this->redirect($request->headers->get('referer'));
     }
 }

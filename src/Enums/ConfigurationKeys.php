@@ -17,4 +17,9 @@ class ConfigurationKeys
      * Default customer group ID when importing orders.
      */
     const EC_DEFAULT_CUSTOMER_GROUP_ID = 'EC_DEFAULT_CUSTOMER_GROUP_ID';
+
+    /**
+     * Default payment moudle ID when importing orders.
+     */
+    const EC_DEFAULT_PAYMENT_MODULE_ID = 'EC_DEFAULT_PAYMENT_MODULE_ID';
 }
