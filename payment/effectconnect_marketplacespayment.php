@@ -39,7 +39,7 @@ class EffectConnect_Marketplacespayment extends PaymentModule
 
 		parent::__construct();
 
-        $this->displayName            = $this->trans('EffectConnect - Marketplaces Payment', [], 'Modules.Effectconnectmarketplaces.Admin');
+        $this->displayName            = $this->trans('EffectConnect Marketplaces Payment', [], 'Modules.Effectconnectmarketplaces.Admin');
         $this->description            = $this->trans('Used as a payment module for importing EffectConnect orders.', [], 'Modules.Effectconnectmarketplaces.Admin');
         $this->confirmUninstall       = $this->trans('Are you sure you want to uninstall the EffectConnect Marketplaces Payment module?', [], 'Modules.Effectconnectmarketplaces.Admin');
 

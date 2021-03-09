@@ -38,7 +38,7 @@ class EffectConnect_Marketplaces extends Module
     {
         $this->name                     = 'effectconnect_marketplaces';
         $this->tab                      = 'market_place';
-        $this->version                  = '3.1.5';
+        $this->version                  = '3.1.6';
         $this->author                   = 'EffectConnect';
         $this->need_instance            = 1;
         $this->bootstrap                = true;
@@ -49,7 +49,7 @@ class EffectConnect_Marketplaces extends Module
 
         parent::__construct();
 
-        $this->displayName              = $this->trans('EffectConnect - Marketplaces', [], 'Modules.Effectconnectmarketplaces.Admin');
+        $this->displayName              = $this->trans('EffectConnect Marketplaces', [], 'Modules.Effectconnectmarketplaces.Admin');
         $this->description              = $this->trans('EffectConnect Marketplaces Prestashop plugin', [], 'Modules.Effectconnectmarketplaces.Admin');
         $this->confirmUninstall         = $this->trans('Are you sure you want to uninstall the EffectConnect Marketplaces module?', [], 'Modules.Effectconnectmarketplaces.Admin');
     }
@@ -202,6 +202,18 @@ class EffectConnect_Marketplaces extends Module
         }
 
         return false;
+    }
+
+    /**
+     * Run the upgrade for a given module name and version - add new translations to database with each upgrade.
+     * This method is executed on upgrade only if a corresponding update file exists in upgrade\upgrade-x.x.x.php.
+     *
+     * @return array
+     */
+    public function runUpgradeModule()
+    {
+        $this->addTranslations();
+        return parent::runUpgradeModule();
     }
 
     /**
