@@ -206,8 +206,8 @@ class OrderImportTransformer extends AbstractTransformer
             // Create new customer.
             $customer            = new Customer();
             $customer->email     = $emailAddress;
-            $customer->firstname = $order->getBillingAddress()->getFirstName();
-            $customer->lastname  = $order->getBillingAddress()->getLastName();
+            $customer->firstname = $this->convertCustomerName($order->getBillingAddress()->getFirstName());
+            $customer->lastname  = $this->convertCustomerName($order->getBillingAddress()->getLastName());
             $customer->passwd    = Tools::passwdGen(8, 'RANDOM');
             $customer->id_gender = $this->getGender($order);
 
@@ -704,5 +704,18 @@ class OrderImportTransformer extends AbstractTransformer
     public function getLastImportedOrderReference()
     {
         return $this->_lastImportedOrderReference;
+    }
+
+    /**
+     * For customer names, only letters and the dot (.) character, followed by a space, are allowed.
+     * Let's replace a dot following by a non-space character by a dot following by a space character.
+     *
+     * @param string $name
+     * @return string
+     */
+    public function convertCustomerName(string $name) {
+        return preg_replace_callback('~\.([^ ])~', function ($matches) {
+            return '. ' . $matches[1];
+        }, $name);
     }
 }
