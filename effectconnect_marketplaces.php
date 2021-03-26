@@ -38,7 +38,7 @@ class EffectConnect_Marketplaces extends Module
     {
         $this->name                     = 'effectconnect_marketplaces';
         $this->tab                      = 'market_place';
-        $this->version                  = '3.1.7';
+        $this->version                  = '3.1.8';
         $this->author                   = 'EffectConnect';
         $this->need_instance            = 1;
         $this->bootstrap                = true;

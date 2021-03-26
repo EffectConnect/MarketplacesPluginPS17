@@ -364,6 +364,9 @@ class OrderImportTransformer extends AbstractTransformer
         {
             // Try to match the product by its Prestashop ID (which we provided before in the catalog export to EffectConnect).
             $productIdentifier = $orderLine->getProduct()->getIdentifier();
+            if (empty($productIdentifier)) {
+                throw new OrderImportFailedException($this->getConnection()->id, 'Process product - product identifier empty');
+            }
             $productId         = $this->getProductIdFromProductIdentifier($productIdentifier);
             $combinationId     = $this->getCombinationIdFromProductIdentifier($productIdentifier);
 
