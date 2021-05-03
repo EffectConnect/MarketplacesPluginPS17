@@ -791,20 +791,22 @@ class CatalogExportTransformer extends AbstractTransformer
                 $attributeNames = [];
                 foreach ($this->_languageIsoCodeById as $languageId => $languageIsoCode)
                 {
-                    if (!isset($this->_featureLanguageData[$languageId][$idFeature]))
-                    {
+                    if (!isset($this->_featureLanguageData[$languageId][$idFeature])) {
                         continue;
                     }
 
                     $translatedFeature = $this->_featureLanguageData[$languageId][$idFeature];
+                    if (empty($translatedFeature['name'])) {
+                        continue;
+                    }
+
                     $attributeNames[] = [
                         '_attributes' => ['language' => $languageIsoCode],
                         '_cdata'      => $translatedFeature['name'],
                     ];
                 }
 
-                if (count($attributeNames) == 0)
-                {
+                if (count($attributeNames) == 0) {
                     continue;
                 }
 
@@ -815,20 +817,22 @@ class CatalogExportTransformer extends AbstractTransformer
                 $attributeValueNames = [];
                 foreach ($this->_languageIsoCodeById as $languageId => $languageIsoCode)
                 {
-                    if (!isset($this->_featureLanguageData[$languageId][$idFeature]['feature_values'][$idFeatureValue]))
-                    {
+                    if (!isset($this->_featureLanguageData[$languageId][$idFeature]['feature_values'][$idFeatureValue])) {
                         continue;
                     }
 
                     $translatedFeatureValue = $this->_featureLanguageData[$languageId][$idFeature]['feature_values'][$idFeatureValue];
+                    if (empty($translatedFeatureValue['value'])) {
+                        continue;
+                    }
+
                     $attributeValueNames[] = [
                         '_attributes' => ['language' => $languageIsoCode],
                         '_cdata'      => $translatedFeatureValue['value'],
                     ];
                 }
 
-                if (count($attributeValueNames) == 0)
-                {
+                if (count($attributeValueNames) == 0) {
                     continue;
                 }
 
