@@ -202,7 +202,7 @@ class TrackingExportQueue extends AbstractModel
                 (`tracking_exported_at` IS NULL AND `tracking_number` IS NOT NULL)
             )
         ';
-        return static::getList($where);
+        return static::getList($where, 30);
     }
 
     /**
