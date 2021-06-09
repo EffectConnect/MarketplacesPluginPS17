@@ -32,14 +32,14 @@ To activate all synchronisation processes between EffectConnect and your webshop
 */20 * * * * <php_path>php <prestashop_path>bin/console ec:export-offers > <prestashop_path>modules/effectconnect_marketplaces/data/log/cron_export_offers.log
 * * * * * <php_path>php <prestashop_path>bin/console ec:export-queued-offers > <prestashop_path>modules/effectconnect_marketplaces/data/log/cron_export_queued_offers.log
 */15 * * * * <php_path>php <prestashop_path>bin/console ec:import-orders > <prestashop_path>modules/effectconnect_marketplaces/data/log/cron_import_orders.log
-*/15 * * * * <php_path>php <prestashop_path>bin/console ec:export-tracking-numbers > <prestashop_path>modules/effectconnect_marketplaces/data/log/export_tracking_numbers.log
+*/15 * * * * <php_path>php <prestashop_path>bin/console ec:export-tracking-numbers > <prestashop_path>modules/effectconnect_marketplaces/data/log/cron_export_tracking_numbers.log
 0 5 * * * <php_path>php <prestashop_path>bin/console ec:clean-files > <prestashop_path>modules/effectconnect_marketplaces/data/log/cron_clean_files.log
 ```
 
 Optional (see explanation below):
 
 ```
-*/15 * * * * <php_path>php <prestashop_path>bin/console ec:queue-shipments > <prestashop_path>modules/effectconnect_marketplaces/data/log/export_tracking_numbers.log
+*/15 * * * * <php_path>php <prestashop_path>bin/console ec:queue-shipments > <prestashop_path>modules/effectconnect_marketplaces/data/log/cron_export_tracking_numbers.log
 ```
 
 ### Example crontab:
@@ -49,7 +49,7 @@ Optional (see explanation below):
 */20 * * * * /usr/bin/php73 /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/bin/console ec:export-offers > /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/modules/effectconnect_marketplaces/data/log/cron_export_offers.log
 * * * * * /usr/bin/php73 /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/bin/console ec:export-queued-offers > /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/modules/effectconnect_marketplaces/data/log/cron_export_queued_offers.log
 */15 * * * * /usr/bin/php73 /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/bin/console ec:import-orders > /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/modules/effectconnect_marketplaces/data/log/cron_import_orders.log
-*/15 * * * * /usr/bin/php73 /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/bin/console ec:export-tracking-numbers > /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/modules/effectconnect_marketplaces/data/log/export_tracking_numbers.log
+*/15 * * * * /usr/bin/php73 /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/bin/console ec:export-tracking-numbers > /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/modules/effectconnect_marketplaces/data/log/cron_export_tracking_numbers.log
 0 5 * * * /usr/bin/php73 /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/bin/console ec:clean-files > /home/kpdevelopment/domains/prestashop-1-7-7-1.nl/public_html/modules/effectconnect_marketplaces/data/log/cron_clean_files.log
 ```
 ### PHP versions
