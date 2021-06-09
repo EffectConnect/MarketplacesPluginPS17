@@ -199,10 +199,19 @@ class TrackingExportQueue extends AbstractModel
             AND (
                 (`shipped_exported_at` IS NULL AND `is_shipped` = 1)
                 OR
-                (`tracking_exported_at` IS NULL AND `tracking_number` IS NOT NULL)
+                (`tracking_exported_at` IS NULL AND `tracking_number` IS NOT NULL AND `tracking_number` != "")
             )
         ';
         return static::getList($where, 30);
+    }
+
+    /**
+     * @return TrackingExportQueue[]
+     */
+    public static function getListNotShipped()
+    {
+        $where = '`is_shipped` = 0';
+        return static::getList($where);
     }
 
     /**

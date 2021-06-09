@@ -71,6 +71,11 @@ services:
       - '@effectconnect.marketplaces.helper.logger_helper'
       - '@effectconnect.marketplaces.service.transformer.order_import_transformer'
 
+  effectconnect.marketplaces.service.queue_shipments:
+    class: EffectConnect\Marketplaces\Service\QueueShipments
+    arguments:
+      - '@effectconnect.marketplaces.helper.logger_helper'
+
   effectconnect.marketplaces.catalog_export_command:
     class: EffectConnect\Marketplaces\Command\CatalogExportCommand
     tags:
@@ -105,6 +110,13 @@ services:
       - { name: 'console.command' }
     arguments:
       - '@effectconnect.marketplaces.service.api.tracking_export_api'
+
+  effectconnect.marketplaces.queue_shipments_command:
+    class: EffectConnect\Marketplaces\Command\QueueShipmentsCommand
+    tags:
+      - { name: 'console.command' }
+    arguments:
+      - '@effectconnect.marketplaces.service.queue_shipments'
 
   effectconnect.marketplaces.file_clean_command:
     class: EffectConnect\Marketplaces\Command\FileCleanCommand

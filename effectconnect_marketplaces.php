@@ -38,7 +38,7 @@ class EffectConnect_Marketplaces extends Module
     {
         $this->name                     = 'effectconnect_marketplaces';
         $this->tab                      = 'market_place';
-        $this->version                  = '3.1.12';
+        $this->version                  = '3.1.13';
         $this->author                   = 'EffectConnect';
         $this->need_instance            = 1;
         $this->bootstrap                = true;
@@ -334,7 +334,6 @@ class EffectConnect_Marketplaces extends Module
 
     /**
      * Order state update hook for updating order state to EC.
-     * TODO: will this hook work for bulk status updates? (processBulkUpdateOrderStatus)
      *
      * @param array $params
      */

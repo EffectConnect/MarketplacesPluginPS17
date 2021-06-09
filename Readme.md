@@ -35,6 +35,13 @@ To activate all synchronisation processes between EffectConnect and your webshop
 */15 * * * * <php_path>php <prestashop_path>bin/console ec:export-tracking-numbers > <prestashop_path>modules/effectconnect_marketplaces/data/log/export_tracking_numbers.log
 0 5 * * * <php_path>php <prestashop_path>bin/console ec:clean-files > <prestashop_path>modules/effectconnect_marketplaces/data/log/cron_clean_files.log
 ```
+
+Optional (see explanation below):
+
+```
+*/15 * * * * <php_path>php <prestashop_path>bin/console ec:queue-shipments > <prestashop_path>modules/effectconnect_marketplaces/data/log/export_tracking_numbers.log
+```
+
 ### Example crontab:
 
 ```
@@ -103,3 +110,8 @@ For example on some servers you can just replace `php` by `php72` (or any desire
     - log files keep track of several processes within the Prestashop Plugin and can be used by the EffectConnect support team for troubleshooting in case functionality does not work as expected     
   - Command: ```ec:clean-files```
   - Recommended to run: once a day
+
+- Queue shipments (optional)
+  - In case you use an external plugin for processing shipments, it is possible that the EffectConnect Marketplaces plugin will not be able to pickup the shipment or tracking number hook and therefore orders will not be updated in EffectConnect Marketplaces whenever an order is shipped. In this case, you can add an extra process that keeps track of shipped orders and add them to the export queue.  
+  - Command: ```ec:queue-shipments```
+  - Recommended to run: every 15 minutes
