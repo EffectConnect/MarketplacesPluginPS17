@@ -61,6 +61,11 @@ class TrackingExportQueue extends AbstractModel
     /**
      * @var string|null
      */
+    public $order_imported_at = null;
+
+    /**
+     * @var string|null
+     */
     public $shipped_exported_at = null;
 
     /**
@@ -116,6 +121,11 @@ class TrackingExportQueue extends AbstractModel
                 'type'       => self::TYPE_STRING,
                 'required'   => false,
                 'size'       => 64,
+                'allow_null' => true
+            ],
+            'order_imported_at' => [
+                'type'       => self::TYPE_DATE,
+                'required'   => false,
                 'allow_null' => true
             ],
             'shipped_exported_at' => [
@@ -174,6 +184,7 @@ class TrackingExportQueue extends AbstractModel
                     `is_shipped` TINYINT(1) UNSIGNED NOT NULL DEFAULT \'0\',
                     `carrier_name` VARCHAR(64) NULL DEFAULT NULL,
                     `tracking_number` VARCHAR(64) NULL DEFAULT NULL,
+                    `order_imported_at` DATETIME NULL DEFAULT NULL,
                     `shipped_exported_at` DATETIME NULL DEFAULT NULL,
                     `tracking_exported_at` DATETIME NULL DEFAULT NULL,
                     PRIMARY KEY (`id_tracking_export_queue`)
@@ -187,6 +198,15 @@ class TrackingExportQueue extends AbstractModel
     public static function removeDbTable()
     {
         return Db::getInstance()->execute('DROP TABLE IF EXISTS `' . _DB_PREFIX_ . self::$definition['table'] . '`');
+    }
+
+    /**
+     * Version 3.1.14 database migration.
+     * @return bool
+     */
+    public static function addDbFieldOrderImportedAt()
+    {
+        return Db::getInstance()->execute('ALTER TABLE  `' . _DB_PREFIX_ . self::$definition['table'] . '` ADD COLUMN `order_imported_at` DATETIME NULL DEFAULT NULL AFTER `tracking_number`');
     }
 
     /**
@@ -206,11 +226,15 @@ class TrackingExportQueue extends AbstractModel
     }
 
     /**
+     * @param int $daysToLookBack
      * @return TrackingExportQueue[]
      */
-    public static function getListNotShipped()
+    public static function getListNotShipped(int $daysToLookBack = 30)
     {
         $where = '`is_shipped` = 0';
+        if ($daysToLookBack > 0) {
+            $where .= ' AND `order_imported_at` >= DATE_SUB(NOW(), INTERVAL ' . intval($daysToLookBack) . ' DAY)';
+        }
         return static::getList($where);
     }
 

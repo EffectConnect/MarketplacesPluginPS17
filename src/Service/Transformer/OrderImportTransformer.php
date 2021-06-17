@@ -639,6 +639,7 @@ class OrderImportTransformer extends AbstractTransformer
         $record->id_connection                         = $this->getConnection()->id;
         $record->ec_marketplaces_identification_number = $ecOrder->getIdentifiers()->getEffectConnectNumber();
         $record->ec_marketplaces_channel_number        = $ecOrder->getIdentifiers()->getChannelNumber();
+        $record->order_imported_at                     = date('Y-m-d H:i:s');
         $record->setFormattedEcMarketplacesOrderLineIds($orderLineIds);
         try {
             $result = $record->save(true);
