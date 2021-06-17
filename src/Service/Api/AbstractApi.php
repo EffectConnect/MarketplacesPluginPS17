@@ -6,7 +6,6 @@ use EffectConnect\Marketplaces\Exception\ApiCallFailedException;
 use EffectConnect\Marketplaces\Exception\InvalidApiCredentialsException;
 use EffectConnect\Marketplaces\Exception\SdkCoreNotInitializedException;
 use EffectConnect\Marketplaces\Exception\UnknownException;
-use EffectConnect\Marketplaces\Helper\LoggerHelper;
 use EffectConnect\Marketplaces\Model\Connection;
 use EffectConnect\PHPSdk\ApiCall;
 use EffectConnect\PHPSdk\Core;
@@ -37,6 +36,11 @@ class AbstractApi
      * @var Logger
      */
     protected $_logger;
+
+    /**
+     * @var int
+     */
+    protected $_timeOut = 300;
 
     /**
      * @param Connection $connection
@@ -91,8 +95,9 @@ class AbstractApi
      * @return ResponseContainerInterface
      * @throws ApiCallFailedException
      */
-    public function resolveResponse(ApiCall $apiCall): ResponseContainerInterface
+    public function callAndResolveResponse(ApiCall $apiCall): ResponseContainerInterface
     {
+        $apiCall->setTimeout($this->_timeOut)->call();
         if (!$apiCall->isSuccess())
         {
             $errorMessageString = '[' . implode('] [', $apiCall->getErrors()) . ']';

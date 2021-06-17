@@ -133,7 +133,6 @@ class OfferExportApi extends AbstractApi
     {
         $productsCall = $this->getSdkCore()->ProductsCall();
         $apiCall      = $productsCall->update($curlFile);
-        $apiCall->call();
-        $this->resolveResponse($apiCall);
+        $this->callAndResolveResponse($apiCall);
     }
 }

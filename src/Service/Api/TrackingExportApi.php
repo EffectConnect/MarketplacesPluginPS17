@@ -176,8 +176,6 @@ class TrackingExportApi extends AbstractApi
         }
 
         $apiCall = $orderCall->update($orderUpdate);
-        $apiCall->call();
-
-        $this->resolveResponse($apiCall);
+        $this->callAndResolveResponse($apiCall);
     }
 }

@@ -134,7 +134,6 @@ class CatalogExportApi extends AbstractApi
     {
         $productsCall = $this->getSdkCore()->ProductsCall();
         $apiCall      = $productsCall->create($curlFile);
-        $apiCall->call();
-        $this->resolveResponse($apiCall);
+        $this->callAndResolveResponse($apiCall);
     }
 }

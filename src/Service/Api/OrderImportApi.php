@@ -295,9 +295,7 @@ class OrderImportApi extends AbstractApi
         $orderUpdate->addOrderUpdate($orderData);
 
         $apiCall = $orderCall->update($orderUpdate);
-        $apiCall->call();
-
-        $this->resolveResponse($apiCall);
+        $this->callAndResolveResponse($apiCall);
     }
 
     /**
@@ -323,9 +321,7 @@ class OrderImportApi extends AbstractApi
         $orderUpdate->addOrderUpdate($orderData);
 
         $apiCall = $orderCall->update($orderUpdate);
-        $apiCall->call();
-
-        $this->resolveResponse($apiCall);
+        $this->callAndResolveResponse($apiCall);
     }
 
     /**
@@ -343,8 +339,7 @@ class OrderImportApi extends AbstractApi
         $this->addStatusFilters($orderList, $connection);
         $this->addExcludeTagFilters($orderList);
         $apiCall = $orderListCall->read($orderList);
-        $apiCall->call();
-        $result = $this->resolveResponse($apiCall);
+        $result = $this->callAndResolveResponse($apiCall);
         return $result->getOrders();
     }
 
