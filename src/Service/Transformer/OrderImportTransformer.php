@@ -439,8 +439,8 @@ class OrderImportTransformer extends AbstractTransformer
             // Add the product to the cart.
             $success = $cart->updateQty(1, $productId, $combinationId, false, 'up', 0, null, false);
 
-            if ($success === false) {
-                throw new OrderImportFailedException($this->getConnection()->id, 'Add product ' . $productIdentifier . ' to cart');
+            if ($success !== true) {
+                throw new OrderImportFailedException($this->getConnection()->id, 'Add product ' . $productIdentifier . ' to cart returned ' . intval($success));
             }
         }
 
