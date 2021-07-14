@@ -552,7 +552,8 @@ class OrderImportTransformer extends AbstractTransformer
         $channelInfo = $order->getChannelInfo();
         $orderComment = [
             ('Order imported from EffectConnect Marketplaces'),
-            ('Channel:') . ' ' . $channelInfo->getType(),
+            ('Channel type:') . ' ' . $channelInfo->getType(),
+            ('Channel title:') . ' ' . $channelInfo->getTitle(),
             ('Order number channel:') . ' ' . $identifiers->getChannelNumber()
         ];
 
