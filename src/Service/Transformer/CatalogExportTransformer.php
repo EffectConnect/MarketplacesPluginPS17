@@ -458,6 +458,23 @@ class CatalogExportTransformer extends AbstractTransformer
             $modifiedEan = '';
         }
 
+        // Skip products that are unavailable for order
+        if ($this->getConnection()->catalog_export_skip_unavailable_for_order && !$product->available_for_order)
+        {
+            $this->_logger->warning('Skipping product because it is unavailable for order.', [
+                'process'    => static::LOGGER_PROCESS,
+                'product'    => [
+                    'identifier' => $identifier,
+                    'sku'        => $sku,
+                    'ean'        => $ean
+                ],
+                'connection' => [
+                    'id' => $this->getConnection()->id
+                ]
+            ]);
+            return [];
+        }
+
         // We don't include EAN field in export when EAN is empty
         if (!empty($modifiedEan))
         {
