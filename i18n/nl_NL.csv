@@ -20,6 +20,8 @@
 "ID","ID"
 "Only export active products","Alleen actieve producten exporteren"
 "If this setting is enabled only products that are enabled will be exported to EffectConnect.","Als deze instelling aan staat, zullen alleen producten die op actief staan worden geëxporteerd naar EffectConnect."
+"Only export products that are unavailable for order","Alleen bestelbare producten exporteren"
+"If this setting is enabled only products that are available for order will be exported to EffectConnect.","Als deze instelling aan staat, zullen alleen producten die op bestelbaar staan worden geëxporteerd naar EffectConnect."
 "Use special price","Kortingsprijs gebruiken"
 "If enabled the special price and the original price will be exported to EffectConnect Marketplaces. If disabled only the original price will be exported.","Als deze instelling aan staat, zullen zowel de originele prijs als de kortingsprijs naar EffectConnect Marketplaces worden geëxporteerd. En anders wordt alleen de originele prijs geëxporteerd."
 "Add product combinations to product title","Productcombinaties toevoegen aan producttitel"

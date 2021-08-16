@@ -41,22 +41,23 @@ class AdminConnectionDataHandler implements FormDataHandlerInterface
      */
     protected function assignData(Connection $record, array $data)
     {
-        $record->is_active                        = intval($data['is_active']);
-        $record->name                             = $data['name'];
-        $record->id_shop                          = intval($data['id_shop']);
-        $record->public_key                       = $data['public_key'];
-        $record->secret_key                       = $data['secret_key'];
-        $record->catalog_export_only_active       = intval($data['catalog_export_only_active']);
-        $record->catalog_export_special_price     = intval($data['catalog_export_special_price']);
-        $record->catalog_export_add_option_title  = intval($data['catalog_export_add_option_title']);
-        $record->catalog_export_ean_leading_zero  = intval($data['catalog_export_ean_leading_zero']);
-        $record->catalog_export_skip_invalid_ean  = intval($data['catalog_export_skip_invalid_ean']);
-        $record->order_import_id_group            = intval($data['order_import_id_group']);
-        $record->order_import_id_carrier          = intval($data['order_import_id_carrier']);
-        $record->order_import_id_payment_module   = intval($data['order_import_id_payment_module']);
-        $record->order_import_id_employee         = intval($data['order_import_id_employee']);
-        $record->order_import_external_fulfilment = $data['order_import_external_fulfilment'];
-        $record->order_import_send_emails         = intval($data['order_import_send_emails']);
+        $record->is_active                                 = intval($data['is_active']);
+        $record->name                                      = $data['name'];
+        $record->id_shop                                   = intval($data['id_shop']);
+        $record->public_key                                = $data['public_key'];
+        $record->secret_key                                = $data['secret_key'];
+        $record->catalog_export_only_active                = intval($data['catalog_export_only_active']);
+        $record->catalog_export_special_price              = intval($data['catalog_export_special_price']);
+        $record->catalog_export_add_option_title           = intval($data['catalog_export_add_option_title']);
+        $record->catalog_export_ean_leading_zero           = intval($data['catalog_export_ean_leading_zero']);
+        $record->catalog_export_skip_invalid_ean           = intval($data['catalog_export_skip_invalid_ean']);
+        $record->catalog_export_skip_unavailable_for_order = intval($data['catalog_export_skip_unavailable_for_order']);
+        $record->order_import_id_group                     = intval($data['order_import_id_group']);
+        $record->order_import_id_carrier                   = intval($data['order_import_id_carrier']);
+        $record->order_import_id_payment_module            = intval($data['order_import_id_payment_module']);
+        $record->order_import_id_employee                  = intval($data['order_import_id_employee']);
+        $record->order_import_external_fulfilment          = $data['order_import_external_fulfilment'];
+        $record->order_import_send_emails                  = intval($data['order_import_send_emails']);
 
         return $record;
     }

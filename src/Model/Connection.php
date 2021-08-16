@@ -66,6 +66,11 @@ class Connection extends AbstractModel
     public $catalog_export_skip_invalid_ean = false;
 
     /**
+     * @var bool
+     */
+    public $catalog_export_skip_unavailable_for_order = true;
+
+    /**
      * @var int
      */
     public $order_import_id_group = 0;
@@ -148,6 +153,10 @@ class Connection extends AbstractModel
                 'type'     => self::TYPE_BOOL,
                 'required' => true
             ],
+            'catalog_export_skip_unavailable_for_order' => [
+                'type'     => self::TYPE_BOOL,
+                'required' => true
+            ],
             'order_import_id_group' => [
                 'type'     => self::TYPE_INT,
                 'required' => true,
@@ -213,6 +222,7 @@ class Connection extends AbstractModel
                     `catalog_export_add_option_title` TINYINT(1) NOT NULL DEFAULT \'1\',
                     `catalog_export_ean_leading_zero` TINYINT(1) NOT NULL DEFAULT \'1\',
                     `catalog_export_skip_invalid_ean` TINYINT(1) NOT NULL DEFAULT \'0\',
+                    `catalog_export_skip_unavailable_for_order` TINYINT(1) NOT NULL DEFAULT \'1\',
                     `order_import_id_group` INT(11) UNSIGNED NOT NULL,
                     `order_import_id_carrier` INT(11) UNSIGNED NOT NULL,
                     `order_import_id_payment_module` INT(11) UNSIGNED NOT NULL,
@@ -231,6 +241,15 @@ class Connection extends AbstractModel
     public static function addDbFieldOrderImportIdEmployee()
     {
         return Db::getInstance()->execute('ALTER TABLE  `' . _DB_PREFIX_ . self::$definition['table'] . '` ADD COLUMN `order_import_id_employee` INT(11) UNSIGNED NOT NULL AFTER `order_import_id_payment_module`');
+    }
+
+    /**
+     * Version 3.1.17 database migration.
+     * @return bool
+     */
+    public static function addDbFieldCatalogExportUnavailableForOrder()
+    {
+        return Db::getInstance()->execute('ALTER TABLE  `' . _DB_PREFIX_ . self::$definition['table'] . '` ADD COLUMN `catalog_export_skip_unavailable_for_order` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `catalog_export_skip_invalid_ean`');
     }
 
     /**

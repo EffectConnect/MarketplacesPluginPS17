@@ -134,6 +134,11 @@ class AdminConnectionFormType extends TranslatorAwareType
                 'label'      => $this->trans('Only export active products', 'Modules.Effectconnectmarketplaces.Admin'),
                 'help'       => $this->trans('If this setting is enabled only products that are enabled will be exported to EffectConnect.', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
+            ->add('catalog_export_skip_unavailable_for_order', SwitchType::class, [
+                'required'   => true,
+                'label'      => $this->trans('Only export products that are unavailable for order', 'Modules.Effectconnectmarketplaces.Admin'),
+                'help'       => $this->trans('If this setting is enabled only products that are available for order will be exported to EffectConnect.', 'Modules.Effectconnectmarketplaces.Admin'),
+            ])
             ->add('catalog_export_special_price', SwitchType::class, [
                 'required'   => true,
                 'label'      => $this->trans('Use special price', 'Modules.Effectconnectmarketplaces.Admin'),

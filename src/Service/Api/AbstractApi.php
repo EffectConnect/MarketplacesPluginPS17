@@ -134,18 +134,19 @@ class AbstractApi
         $this->_logger->info('Process started.', [
             'process'    => static::LOGGER_PROCESS,
             'connection' => [
-                'id'                              => $connection->id,
-                'name'                            => $connection->name,
-                'public_key'                      => $connection->public_key,
-                'is_active'                       => $connection->is_active,
-                'id_shop'                         => $connection->id_shop,
-                'catalog_export_only_active'      => $connection->catalog_export_only_active,
-                'catalog_export_special_price'    => $connection->catalog_export_special_price,
-                'catalog_export_ean_leading_zero' => $connection->catalog_export_ean_leading_zero,
-                'catalog_export_skip_invalid_ean' => $connection->catalog_export_skip_invalid_ean,
-                'order_import_id_carrier'         => $connection->order_import_id_carrier,
-                'order_import_id_payment_module'  => $connection->order_import_id_payment_module,
-                'order_import_send_emails'        => $connection->order_import_send_emails
+                'id'                                        => $connection->id,
+                'name'                                      => $connection->name,
+                'public_key'                                => $connection->public_key,
+                'is_active'                                 => $connection->is_active,
+                'id_shop'                                   => $connection->id_shop,
+                'catalog_export_only_active'                => $connection->catalog_export_only_active,
+                'catalog_export_special_price'              => $connection->catalog_export_special_price,
+                'catalog_export_ean_leading_zero'           => $connection->catalog_export_ean_leading_zero,
+                'catalog_export_skip_invalid_ean'           => $connection->catalog_export_skip_invalid_ean,
+                'catalog_export_skip_unavailable_for_order' => $connection->catalog_export_skip_unavailable_for_order,
+                'order_import_id_carrier'                   => $connection->order_import_id_carrier,
+                'order_import_id_payment_module'            => $connection->order_import_id_payment_module,
+                'order_import_send_emails'                  => $connection->order_import_send_emails
             ]
         ]);
     }
