@@ -101,6 +101,11 @@ class Connection extends AbstractModel
     public $order_import_send_emails = false;
 
     /**
+     * @var int|null
+     */
+    public $order_import_api_call_timeout;
+
+    /**
      * @var array
      */
     public static $definition = [
@@ -186,6 +191,12 @@ class Connection extends AbstractModel
                 'type'     => self::TYPE_BOOL,
                 'required' => true
             ],
+            'order_import_api_call_timeout' => [
+                'type'       => self::TYPE_INT,
+                'required'   => false,
+                'validate'   => 'isUnsignedInt',
+                'allow_null' => true,
+            ]
         ]
     ];
 
@@ -229,6 +240,7 @@ class Connection extends AbstractModel
                     `order_import_id_employee` INT(11) UNSIGNED NOT NULL,
                     `order_import_external_fulfilment` VARCHAR(64) NOT NULL,
                     `order_import_send_emails` TINYINT(1) NOT NULL DEFAULT \'0\',
+                    `order_import_api_call_timeout` INT(11) UNSIGNED NULL DEFAULT NULL,
                     PRIMARY KEY (`id_connection`)
                     ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8')
             ;
@@ -250,6 +262,15 @@ class Connection extends AbstractModel
     public static function addDbFieldCatalogExportUnavailableForOrder()
     {
         return Db::getInstance()->execute('ALTER TABLE  `' . _DB_PREFIX_ . self::$definition['table'] . '` ADD COLUMN `catalog_export_skip_unavailable_for_order` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `catalog_export_skip_invalid_ean`');
+    }
+
+    /**
+     * Version 3.1.18 database migration.
+     * @return bool
+     */
+    public static function addDbFieldOrderImportApiCallTimeout()
+    {
+        return Db::getInstance()->execute('ALTER TABLE  `' . _DB_PREFIX_ . self::$definition['table'] . '` ADD COLUMN `order_import_api_call_timeout` INT(11) UNSIGNED NULL DEFAULT NULL AFTER `order_import_send_emails`');
     }
 
     /**

@@ -58,6 +58,7 @@ class AdminConnectionDataHandler implements FormDataHandlerInterface
         $record->order_import_id_employee                  = intval($data['order_import_id_employee']);
         $record->order_import_external_fulfilment          = $data['order_import_external_fulfilment'];
         $record->order_import_send_emails                  = intval($data['order_import_send_emails']);
+        $record->order_import_api_call_timeout             = (!is_null($data['order_import_api_call_timeout']) ? intval($data['order_import_api_call_timeout']) : null);
 
         return $record;
     }

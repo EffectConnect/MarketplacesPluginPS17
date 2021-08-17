@@ -92,11 +92,16 @@ class AbstractApi
      * Resolve the API call response.
      *
      * @param ApiCall $apiCall
+     * @param int $timeOut
      * @return ResponseContainerInterface
      * @throws ApiCallFailedException
      */
-    public function callAndResolveResponse(ApiCall $apiCall): ResponseContainerInterface
+    public function callAndResolveResponse(ApiCall $apiCall, int $timeOut = 0): ResponseContainerInterface
     {
+        if ($timeOut > 0) {
+            $this->_timeOut = $timeOut;
+        }
+
         $apiCall->setTimeout($this->_timeOut)->call();
         if (!$apiCall->isSuccess())
         {
@@ -146,7 +151,8 @@ class AbstractApi
                 'catalog_export_skip_unavailable_for_order' => $connection->catalog_export_skip_unavailable_for_order,
                 'order_import_id_carrier'                   => $connection->order_import_id_carrier,
                 'order_import_id_payment_module'            => $connection->order_import_id_payment_module,
-                'order_import_send_emails'                  => $connection->order_import_send_emails
+                'order_import_send_emails'                  => $connection->order_import_send_emails,
+                'order_import_api_call_timeout'             => $connection->order_import_api_call_timeout,
             ]
         ]);
     }
