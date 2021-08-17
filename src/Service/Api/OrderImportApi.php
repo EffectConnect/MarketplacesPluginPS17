@@ -339,7 +339,12 @@ class OrderImportApi extends AbstractApi
         $this->addStatusFilters($orderList, $connection);
         $this->addExcludeTagFilters($orderList);
         $apiCall = $orderListCall->read($orderList);
-        $result = $this->callAndResolveResponse($apiCall);
+
+        $timeOut = 0;
+        if (intval($connection->order_import_api_call_timeout) > 0) {
+            $timeOut = intval($connection->order_import_api_call_timeout);
+        }
+        $result = $this->callAndResolveResponse($apiCall, $timeOut);
         return $result->getOrders();
     }
 

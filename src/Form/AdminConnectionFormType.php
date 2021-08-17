@@ -11,6 +11,7 @@ use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\PaymentModuleChoiceProvi
 use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\ShopChoiceProvider;
 use PrestaShop\PrestaShop\Adapter\Carrier\CarrierDataProvider;
 use PrestaShopBundle\Form\Admin\Type\SwitchType;
+use PrestaShopBundle\Form\Admin\Type\TextWithUnitType;
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -18,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -194,15 +197,22 @@ class AdminConnectionFormType extends TranslatorAwareType
                 'help'        => $this->trans('The employee each imported order is assigned to (used by Prestashop for order history and stock update logs)', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
             ->add('order_import_external_fulfilment', ChoiceType::class, [
-                'choices'    => $this->_externalFulfilmentChoiceProvider->getChoices(),
-                'required'   => true,
-                'label'      => $this->trans('External fulfilment', 'Modules.Effectconnectmarketplaces.Admin'),
-                'help'       => $this->trans('Whether to import orders that are externally fulfilled or not. Internally fulfilled orders have status paid in EffectConnect. Externally fulfilled orders have status completed and tag external_fulfilled.', 'Modules.Effectconnectmarketplaces.Admin'),
+                'choices'     => $this->_externalFulfilmentChoiceProvider->getChoices(),
+                'required'    => true,
+                'label'       => $this->trans('External fulfilment', 'Modules.Effectconnectmarketplaces.Admin'),
+                'help'        => $this->trans('Whether to import orders that are externally fulfilled or not. Internally fulfilled orders have status paid in EffectConnect. Externally fulfilled orders have status completed and tag external_fulfilled.', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
             ->add('order_import_send_emails', SwitchType::class, [
-                'required'   => true,
-                'label'      => $this->trans('Send emails', 'Modules.Effectconnectmarketplaces.Admin'),
-                'help'       => $this->trans('Whether or not to let Prestashop send order update emails to the customer for each imported order.', 'Modules.Effectconnectmarketplaces.Admin'),
+                'required'    => true,
+                'label'       => $this->trans('Send emails', 'Modules.Effectconnectmarketplaces.Admin'),
+                'help'        => $this->trans('Whether or not to let Prestashop send order update emails to the customer for each imported order.', 'Modules.Effectconnectmarketplaces.Admin'),
+            ])
+            ->add('order_import_api_call_timeout', TextWithUnitType::class, [
+                'required'    => false,
+                'constraints' => [new GreaterThan(['value' => 0]), new LessThanOrEqual(['value' => 3600])],
+                'label'       => $this->trans('API call timeout (optional)', 'Modules.Effectconnectmarketplaces.Admin'),
+                'help'        => $this->trans('Use this to increase the default API call timeout (in seconds, default is 300 seconds) when fetching orders from EffectConnect (for large amount of orders).', 'Modules.Effectconnectmarketplaces.Admin'),
+                'unit'        => $this->trans('second(s)', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
         ;
     }

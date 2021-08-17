@@ -204,6 +204,13 @@
                 {{ form_widget(AdminConnectionForm.order_import_send_emails) }}
               </div>
             </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.order_import_api_call_timeout.vars.label, AdminConnectionForm.order_import_api_call_timeout.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.order_import_api_call_timeout) }}
+                {{ form_widget(AdminConnectionForm.order_import_api_call_timeout) }}
+              </div>
+            </div>
           </div>
         </div>
         <div class="card-footer">
