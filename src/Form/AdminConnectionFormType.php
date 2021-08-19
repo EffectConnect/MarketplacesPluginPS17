@@ -11,7 +11,6 @@ use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\PaymentModuleChoiceProvi
 use EffectConnect\Marketplaces\Form\Type\ChoiceProvider\ShopChoiceProvider;
 use PrestaShop\PrestaShop\Adapter\Carrier\CarrierDataProvider;
 use PrestaShopBundle\Form\Admin\Type\SwitchType;
-use PrestaShopBundle\Form\Admin\Type\TextWithUnitType;
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -139,7 +138,7 @@ class AdminConnectionFormType extends TranslatorAwareType
             ])
             ->add('catalog_export_skip_unavailable_for_order', SwitchType::class, [
                 'required'   => true,
-                'label'      => $this->trans('Only export products that are unavailable for order', 'Modules.Effectconnectmarketplaces.Admin'),
+                'label'      => $this->trans('Only export products that are available for order', 'Modules.Effectconnectmarketplaces.Admin'),
                 'help'       => $this->trans('If this setting is enabled only products that are available for order will be exported to EffectConnect.', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
             ->add('catalog_export_special_price', SwitchType::class, [
@@ -207,12 +206,11 @@ class AdminConnectionFormType extends TranslatorAwareType
                 'label'       => $this->trans('Send emails', 'Modules.Effectconnectmarketplaces.Admin'),
                 'help'        => $this->trans('Whether or not to let Prestashop send order update emails to the customer for each imported order.', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
-            ->add('order_import_api_call_timeout', TextWithUnitType::class, [
+            ->add('order_import_api_call_timeout', TextType::class, [
                 'required'    => false,
                 'constraints' => [new GreaterThan(['value' => 0]), new LessThanOrEqual(['value' => 3600])],
                 'label'       => $this->trans('API call timeout (optional)', 'Modules.Effectconnectmarketplaces.Admin'),
                 'help'        => $this->trans('Use this to increase the default API call timeout (in seconds, default is 300 seconds) when fetching orders from EffectConnect (for large amount of orders).', 'Modules.Effectconnectmarketplaces.Admin'),
-                'unit'        => $this->trans('second(s)', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
         ;
     }
