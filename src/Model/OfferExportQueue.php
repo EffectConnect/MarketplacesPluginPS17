@@ -72,7 +72,7 @@ class OfferExportQueue extends AbstractModel
         return Db::getInstance()->execute('CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . self::$definition['table'] . '`(
                     `id_stock_export_queue` INT UNSIGNED NOT NULL AUTO_INCREMENT,
                     `id_product` INT UNSIGNED NOT NULL,
-                    `date_add` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    `date_add` DATETIME NULL DEFAULT NULL,
                     `exported_at` DATETIME NULL DEFAULT NULL,
                     PRIMARY KEY (`id_stock_export_queue`)
                     ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8')
@@ -102,6 +102,7 @@ class OfferExportQueue extends AbstractModel
         // Schedule item.
         $record             = new OfferExportQueue();
         $record->id_product = $idProduct;
+        $record->date_add   = date('Y-m-d H:i:s');
         try {
             $result = $record->save(true);
         } catch (PrestaShopException $e) {
