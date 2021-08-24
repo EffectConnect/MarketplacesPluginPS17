@@ -38,7 +38,7 @@ class EffectConnect_Marketplaces extends Module
     {
         $this->name                     = 'effectconnect_marketplaces';
         $this->tab                      = 'market_place';
-        $this->version                  = '3.1.19';
+        $this->version                  = '3.1.20';
         $this->author                   = 'EffectConnect';
         $this->need_instance            = 1;
         $this->bootstrap                = true;
@@ -64,6 +64,7 @@ class EffectConnect_Marketplaces extends Module
             // Register hooks.
             foreach ($this->_hooks as $hook) {
                 if (!$this->registerHook($hook)) {
+                    $this->_errors[] = 'Error while registering hooks';
                     return false;
                 }
             }
@@ -74,6 +75,7 @@ class EffectConnect_Marketplaces extends Module
                 || !TrackingExportQueue::createDbTable()
                 || !OfferExportQueue::createDbTable()
             ) {
+                $this->_errors[] = 'Error while creating database tables';
                 return false;
             }
 
@@ -83,11 +85,13 @@ class EffectConnect_Marketplaces extends Module
                 || !TabManager::addChildTab('AdminConnectionControllerLegacyClass', 'Connections', $this->trans('Connections', [], 'Modules.Effectconnectmarketplaces.Admin'))
                 || !TabManager::addChildTab('AdminLogControllerLegacyClass', 'Logs', $this->trans('Logs', [], 'Modules.Effectconnectmarketplaces.Admin'))
             ) {
+                $this->_errors[] = 'Error while adding admin tabs';
                 return false;
             }
 
             // Add carrier.
             if (!CarrierManager::addCarrier()) {
+                $this->_errors[] = 'Error while adding carrier';
                 return false;
             }
 
@@ -95,6 +99,7 @@ class EffectConnect_Marketplaces extends Module
 
             // Add translations.
             if (!$this->addTranslations()) {
+                $this->_errors[] = 'Error while adding translations';
                 return false;
             }
 
@@ -114,6 +119,7 @@ class EffectConnect_Marketplaces extends Module
             // Unregister hooks.
             foreach ($this->_hooks as $hook) {
                 if (!$this->unregisterHook($hook)) {
+                    $this->_errors[] = 'Error while unregistering hooks';
                     return false;
                 }
             }
@@ -124,6 +130,7 @@ class EffectConnect_Marketplaces extends Module
                 || !TrackingExportQueue::removeDbTable()
                 || !OfferExportQueue::removeDbTable()
             ) {
+                $this->_errors[] = 'Error while removing database tables';
                 return false;
             }
 
@@ -133,16 +140,19 @@ class EffectConnect_Marketplaces extends Module
                 || !TabManager::removeTab('AdminConnectionControllerLegacyClass')
                 || !TabManager::removeParentTab()
             ) {
+                $this->_errors[] = 'Error while removing admin tabs';
                 return false;
             }
 
             // Remove carrier.
             if (!CarrierManager::removeCarrier()) {
+                $this->_errors[] = 'Error while removing carrier';
                 return false;
             }
 
             // Remove translations.
             if (!$this->removeTranslations()) {
+                $this->_errors[] = 'Error while removing translations';
                 return false;
             }
 
@@ -163,12 +173,14 @@ class EffectConnect_Marketplaces extends Module
             // Register hooks.
             foreach ($this->_hooks as $hook) {
                 if (!$this->registerHook($hook)) {
+                    $this->_errors[] = 'Error while registering hooks';
                     return false;
                 }
             }
 
             // Disable admin tabs.
             if (!Tab::enablingForModule($this->name)) {
+                $this->_errors[] = 'Error while enabling admin tabs';
                 return false;
             }
 
@@ -189,12 +201,14 @@ class EffectConnect_Marketplaces extends Module
             // Unregister hooks.
             foreach ($this->_hooks as $hook) {
                 if (!$this->unregisterHook($hook)) {
+                    $this->_errors[] = 'Error while unregistering hooks';
                     return false;
                 }
             }
 
             // Disable admin tabs.
             if (!Tab::disablingForModule($this->name)) {
+                $this->_errors[] = 'Error while disabling admin tabs';
                 return false;
             }
 
