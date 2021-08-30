@@ -36,6 +36,7 @@ use PrestaShopException;
 use Product;
 use SpecificPrice;
 use State;
+use Symfony\Component\Translation\TranslatorInterface;
 use Tools;
 use Validate;
 
@@ -67,19 +68,22 @@ class OrderImportTransformer extends AbstractTransformer
 
     /**
      * OrderImportTransformer constructor.
+     *
      * @param InitContext $initContext
      * @param LegacyContext $legacyContext
      * @param CurrencyDataProvider $currencyDataProvider
+     * @param TranslatorInterface $translator
      * @param LoggerHelper $loggerHelper
      */
     public function __construct(
         InitContext $initContext,
         LegacyContext $legacyContext,
         CurrencyDataProvider $currencyDataProvider,
+        TranslatorInterface $translator,
         LoggerHelper $loggerHelper
     ) {
         $this->_logger = $loggerHelper::createLogger(static::LOGGER_PROCESS);
-        parent::__construct($initContext, $legacyContext, $currencyDataProvider);
+        parent::__construct($initContext, $legacyContext, $currencyDataProvider, $translator);
     }
 
     /**

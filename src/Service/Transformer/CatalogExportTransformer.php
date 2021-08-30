@@ -27,6 +27,7 @@ use PrestaShop\PrestaShop\Adapter\Product\ProductDataProvider;
 use EffectConnect\Marketplaces\Service\ProductSearch\ProductSearchContext;
 use PrestaShop\PrestaShop\Core\Product\Search\ProductSearchQuery;
 use Product;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CatalogExportTransformer
@@ -119,9 +120,11 @@ class CatalogExportTransformer extends AbstractTransformer
 
     /**
      * CatalogExportTransformer constructor.
+     *
      * @param InitContext $initContext
      * @param LegacyContext $legacyContext
      * @param CurrencyDataProvider $currencyDataProvider
+     * @param TranslatorInterface $translator
      * @param LoggerHelper $loggerHelper
      * @param Configuration $configuration
      * @param ProductDataProvider $productDataProvider
@@ -135,6 +138,7 @@ class CatalogExportTransformer extends AbstractTransformer
         InitContext $initContext,
         LegacyContext $legacyContext,
         CurrencyDataProvider $currencyDataProvider,
+        TranslatorInterface $translator,
         LoggerHelper $loggerHelper,
         Configuration $configuration,
         ProductDataProvider $productDataProvider,
@@ -152,7 +156,7 @@ class CatalogExportTransformer extends AbstractTransformer
         $this->_productSearchProvider = $productSearchProvider;
         $this->_priceFormatter        = $priceFormatter;
         $this->_logger                = $loggerHelper::createLogger(static::LOGGER_PROCESS);
-        parent::__construct($initContext, $legacyContext, $currencyDataProvider);
+        parent::__construct($initContext, $legacyContext, $currencyDataProvider, $translator);
     }
 
     /**
@@ -790,7 +794,7 @@ class CatalogExportTransformer extends AbstractTransformer
      */
     protected function getProductAttributes(Product $product)
     {
-        $attributesExport      = [];
+        $attributesExport      = $this->getProductAttributeAvailableForOrder($product);
         $attributeValuesExport = [];
         $features = $product->getFeatures();
 
@@ -872,7 +876,7 @@ class CatalogExportTransformer extends AbstractTransformer
             }
         }
 
-        return $attributesExport;
+        return array_values($attributesExport); // Make sure keys are numerical (otherwise keys will appear as XML tag)
     }
 
     /**
@@ -1085,5 +1089,51 @@ class CatalogExportTransformer extends AbstractTransformer
     protected function validateEAN(string $ean)
     {
         return (1 === preg_match('~^[0-9]{13,14}$~', $ean));
+    }
+
+    /**
+     * @param Product $product
+     * @return mixed
+     */
+    protected function getProductAttributeAvailableForOrder(Product $product)
+    {
+        $attributeValue = intval($product->available_for_order);
+
+        $attributeValueNames = [];
+        foreach ($this->_languages as $languageId => $language)
+        {
+            $attributeValueNames[] = [
+                '_attributes' => ['language' => $language['iso_code']],
+                '_cdata'      => $this->_translator->trans($attributeValue === 1 ? 'Yes' : 'No', [], 'Modules.Effectconnectmarketplaces.Admin', $language['locale']),
+            ];
+        }
+
+        $attributeNames = [];
+        foreach ($this->_languages as $languageId => $language)
+        {
+            $attributeNames[] = [
+                '_attributes' => ['language' => $language['iso_code']],
+                '_cdata'      => $this->_translator->trans('Available for order', [], 'Modules.Effectconnectmarketplaces.Admin', $language['locale']),
+            ];
+        }
+
+        $attributeValuesExport = [
+            'code'   => intval($product->available_for_order),
+            'names' => [
+                'name' => $attributeValueNames,
+            ],
+        ];
+
+        $attributesExport['available_for_order'] = [
+            'code'   => 'available_for_order',
+            'names' => [
+                'name' => $attributeNames,
+            ],
+            'values' => [
+                'value' => $attributeValuesExport,
+            ],
+        ];
+
+        return $attributesExport;
     }
 }

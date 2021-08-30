@@ -17,6 +17,7 @@ services:
       - '@effectconnect.marketplaces.service.init_context'
       - '@prestashop.adapter.legacy.context'
       - '@prestashop.adapter.data_provider.currency'
+      - '@translator'
 
   effectconnect.marketplaces.service.transformer.catalog_export_transformer:
     class: EffectConnect\Marketplaces\Service\Transformer\CatalogExportTransformer

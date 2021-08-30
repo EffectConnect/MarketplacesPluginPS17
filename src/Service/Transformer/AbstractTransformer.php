@@ -9,6 +9,7 @@ use EffectConnect\Marketplaces\Service\InitContext;
 use Monolog\Logger;
 use PrestaShop\PrestaShop\Adapter\Currency\CurrencyDataProvider;
 use PrestaShop\PrestaShop\Adapter\LegacyContext;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class AbstractTransformer
@@ -38,6 +39,12 @@ class AbstractTransformer
     protected $_languageIsoCodeById = [];
 
     /**
+     * Contains an array of active languages for loaded shop with the language id as key and language array as value.
+     * @var array
+     */
+    protected $_languages = [];
+
+    /**
      * @var Logger
      */
     protected $_logger;
@@ -58,19 +65,28 @@ class AbstractTransformer
     protected $_currencyShop;
 
     /**
+     * @var TranslatorInterface
+     */
+    protected $_translator;
+
+    /**
      * AbstractTransformer constructor.
+     *
      * @param InitContext $initContext
      * @param LegacyContext $legacyContext
      * @param CurrencyDataProvider $currencyDataProvider
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         InitContext $initContext,
         LegacyContext $legacyContext,
-        CurrencyDataProvider $currencyDataProvider
+        CurrencyDataProvider $currencyDataProvider,
+        TranslatorInterface $translator
     ) {
         $this->_initContext          = $initContext;
         $this->_legacyContext        = $legacyContext;
         $this->_currencyDataProvider = $currencyDataProvider;
+        $this->_translator           = $translator;
     }
 
     /**
@@ -133,6 +149,7 @@ class AbstractTransformer
         foreach ($languages as $language) {
             $idLang = intval($language['id_lang']);
             $this->_languageIsoCodeById[$idLang] = $language['iso_code'];
+            $this->_languages[$idLang] = $language;
         }
 
         $this->_logger->info('Language data loaded.', [
