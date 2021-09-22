@@ -225,6 +225,18 @@ class CatalogExportTransformer extends AbstractTransformer
                     continue;
                 }
 
+                // Exclude virtual products
+                if ($product->getType() === Product::PTYPE_VIRTUAL) {
+                    $this->_logger->info('Skipping product because virtual products are not supported.', [
+                        'process'    => static::LOGGER_PROCESS,
+                        'id_product' => $idProduct,
+                        'connection' => [
+                            'id' => $this->getConnection()->id
+                        ]
+                    ]);
+                    continue;
+                }
+
                 if (empty($productArray)) {
                     $this->_logger->info('Skipping product because it is empty.', [
                         'process'    => static::LOGGER_PROCESS,
@@ -794,7 +806,12 @@ class CatalogExportTransformer extends AbstractTransformer
      */
     protected function getProductAttributes(Product $product)
     {
-        $attributesExport      = $this->getProductAttributeAvailableForOrder($product);
+        // Get fixed attributes
+        $attributesExport = array_merge(
+            $this->getProductAttributeAvailableForOrder($product),
+            $this->getProductAttributeDimensions($product)
+        );
+
         $attributeValuesExport = [];
         $features = $product->getFeatures();
 
@@ -1093,7 +1110,60 @@ class CatalogExportTransformer extends AbstractTransformer
 
     /**
      * @param Product $product
-     * @return mixed
+     * @return array
+     */
+    protected function getProductAttributeDimensions(Product $product)
+    {
+        $attributesExport = [];
+
+        $dimensionAttributes = ['width', 'height', 'depth', 'weight'];
+        foreach ($dimensionAttributes as $dimensionAttribute)
+        {
+            $attributeValue = $product->{$dimensionAttribute};
+
+            $attributeValueNames = [];
+            foreach ($this->_languages as $languageId => $language)
+            {
+                $attributeValueNames[] = [
+                    '_attributes' => ['language' => $language['iso_code']],
+                    '_cdata'      => $attributeValue,
+                ];
+            }
+
+            $attributeNames = [];
+            foreach ($this->_languages as $languageId => $language)
+            {
+                $attributeNames[] = [
+                    '_attributes' => ['language' => $language['iso_code']],
+                    '_cdata'      => $this->_translator->trans(ucfirst($dimensionAttribute), [], 'Modules.Effectconnectmarketplaces.Admin', $language['locale']),
+                ];
+            }
+
+            $attributeValuesExport = [
+                'code'   => $attributeValue,
+                'names' => [
+                    'name' => $attributeValueNames,
+                ],
+            ];
+
+            $attributeCode = 'base_' . $dimensionAttribute;
+            $attributesExport[$attributeCode] = [
+                'code'   => $attributeCode,
+                'names' => [
+                    'name' => $attributeNames,
+                ],
+                'values' => [
+                    'value' => $attributeValuesExport,
+                ],
+            ];
+        }
+
+        return $attributesExport;
+    }
+
+    /**
+     * @param Product $product
+     * @return array
      */
     protected function getProductAttributeAvailableForOrder(Product $product)
     {
@@ -1118,7 +1188,7 @@ class CatalogExportTransformer extends AbstractTransformer
         }
 
         $attributeValuesExport = [
-            'code'   => intval($product->available_for_order),
+            'code'   => $attributeValue,
             'names' => [
                 'name' => $attributeValueNames,
             ],
