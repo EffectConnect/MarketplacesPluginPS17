@@ -1096,7 +1096,7 @@ class CatalogExportTransformer extends AbstractTransformer
      */
     protected function getStock(Product $product, int $idCombination = null)
     {
-        return min(Product::getQuantity($product->id, $idCombination), 9999);
+        return max(0, min(Product::getQuantity($product->id, $idCombination), 9999));
     }
 
     /**
