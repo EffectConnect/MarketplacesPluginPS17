@@ -2,6 +2,8 @@
 
 Use this plugin to connect your Prestashop 1.7 webshop with EffectConnect Marketplaces. For more information about EffectConnect, go to the [EffectConnect website](https://www.effectconnect.com "EffectConnect Website").
 
+**Important: before installing this plugin please contact the EffectConnect sales department via +31(0)852088432 and/or sales@effectconnect.com so we can provide you with a new EffectConnect account.**
+
 ## Install module
 
 1. Download the latest release [effectconnect_marketplaces_x_x_x.zip](https://github.com/EffectConnect/MarketplacesPluginPrestashop/releases/ "Plugin ZIP") of the plugin.
