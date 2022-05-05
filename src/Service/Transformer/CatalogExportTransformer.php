@@ -267,7 +267,7 @@ class CatalogExportTransformer extends AbstractTransformer
 
             $page += static::PAGE_SIZE;
         }
-        while ($result->getTotalProductsCount() > $page);
+        while (count($result->getProducts()) > 0);
 
         $xmlHelper->endTransaction();
 

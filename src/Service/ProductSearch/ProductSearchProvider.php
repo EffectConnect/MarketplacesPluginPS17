@@ -25,14 +25,20 @@ class ProductSearchProvider implements ProductSearchProviderInterface
     ) {
         $result = new ProductSearchResult();
 
-        $productsCount = count($this->getProductsOrCount($context, $query, 'count'));
-
-        if ($productsCount > 0) {
+// TODO:
+// Prevent out-of-memory issues by fetching all products and then counting them.
+// Instead we should switch to the new PS structure for fetching products and their count.
+// For example using the src\Adapter\Product\AdminProductDataProvider class.
+// For now just skip the counting products part and prevent using getTotalProductsCount.
+//
+//        $productsCount = count($this->getProductsOrCount($context, $query, 'count'));
+//
+//        if ($productsCount > 0) {
             $products = $this->getProductsOrCount($context, $query, 'products');
             $result->setProducts($products);
-        }
-
-        $result->setTotalProductsCount($productsCount);
+//        }
+//
+//        $result->setTotalProductsCount($productsCount);
 
         return $result;
     }
