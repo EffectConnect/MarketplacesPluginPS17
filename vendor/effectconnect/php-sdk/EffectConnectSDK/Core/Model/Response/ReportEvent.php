@@ -36,6 +36,17 @@
          * @var string $_message
          */
         private $_message;
+
+        /**
+         * @var string $_line
+         */
+        private $_line;
+
+        /**
+         * @var string $_column
+         */
+        private $_column;
+
         /**
          * @var Note $_notes
          */
@@ -56,7 +67,10 @@
             $this->_iteration = (int)Payload::extract($payload, 'iteration');
             $this->_type      = Payload::extract($payload, 'type');
             $this->_result    = Payload::extract($payload, 'result');
-            $this->_message   = Payload::extract($payload, 'message');
+            $this->_message   = Payload::extract($payload, 'message');            
+            $this->_line      = Payload::extract($payload, 'line');
+            $this->_column    = Payload::extract($payload, 'column');
+
             foreach (Payload::extract($payload, 'notes', true) as $note)
             {
                 $this->_notes[] = new Note((string)$note);
@@ -102,4 +116,21 @@
         {
             return $this->_notes;
         }
+        
+        /**
+         * @return string
+         */
+        public function getColumn()
+        {
+            return $this->_column;
+        }
+
+        /**
+         * @return string
+         */
+        public function getLine()
+        {
+            return $this->_line;
+        }
+        
     }

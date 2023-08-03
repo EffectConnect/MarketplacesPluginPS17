@@ -26,6 +26,10 @@
          */
         private $_currency;
         /**
+         * @var string $_isTaxShifted
+         */
+        private $_isTaxShifted;
+        /**
          * @var \DateTime $_date
          */
         private $_date;
@@ -72,6 +76,7 @@
             $this->_identifiers     = new OrderIdentifiers(Payload::extract($payload, 'identifiers'));
             $this->_channelInfo     = new ChannelInfo(Payload::extract($payload, 'channelInfo'));
             $this->_currency        = Payload::extract($payload, 'currency');
+            $this->_isTaxShifted    = Payload::extract($payload, 'isTaxShifted');
             $this->_date            = \DateTime::createFromFormat('Y-m-d\TH:i:sP', Payload::extract($payload, 'date'));
             $this->_status          = Payload::extract($payload, 'status');
             $this->_billingAddress  = new BillingAddress(Payload::extract($payload, 'billingAddress'));
@@ -125,6 +130,14 @@
         public function getCurrency()
         {
             return $this->_currency;
+        }
+
+        /**
+         * @return string
+         */
+        public function getIsTaxShifted()
+        {
+            return $this->_isTaxShifted;
         }
 
         /**

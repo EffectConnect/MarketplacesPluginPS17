@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "923842e275676d5e38ebe852965207c1",
+    "content-hash": "8c96632e8c64d7eb9b720498983491c5",
     "packages": [
         {
             "name": "effectconnect/php-sdk",
-            "version": "3.2.8",
+            "version": "3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EffectConnect/EffectConnectSDK.git",
-                "reference": "e24a4d6ae41cab01ac94fcaac73bcd5102b23ec4"
+                "reference": "3021de999ba7b1d01e740ef202df2f6f5f674fac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EffectConnect/EffectConnectSDK/zipball/e24a4d6ae41cab01ac94fcaac73bcd5102b23ec4",
-                "reference": "e24a4d6ae41cab01ac94fcaac73bcd5102b23ec4",
+                "url": "https://api.github.com/repos/EffectConnect/EffectConnectSDK/zipball/3021de999ba7b1d01e740ef202df2f6f5f674fac",
+                "reference": "3021de999ba7b1d01e740ef202df2f6f5f674fac",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,11 @@
                 "php",
                 "sdk"
             ],
-            "time": "2020-07-15T14:48:35+00:00"
+            "support": {
+                "issues": "https://github.com/EffectConnect/EffectConnectSDK/issues",
+                "source": "https://github.com/EffectConnect/EffectConnectSDK/tree/3.2.10"
+            },
+            "time": "2022-01-18T14:29:10+00:00"
         }
     ],
     "packages-dev": [],
@@ -59,5 +63,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
 }
