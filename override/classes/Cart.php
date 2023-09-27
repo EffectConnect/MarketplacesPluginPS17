@@ -1,22 +1,19 @@
 <?php
 
-use EffectConnect\Marketplaces\Service\ShippingCostCalculator;
-use EffectConnect\PHPSdk\Core\Model\Response\Order as EffectConnectOrder;
-
 /**
  * Class Cart
  */
 class Cart extends CartCore
 {
     /**
-     * @var EffectConnectOrder|null
+     * @var EffectConnect\PHPSdk\Core\Model\Response\Order|null
      */
     protected static $_effectConnectOrder = null;
 
     /**
-     * @param EffectConnectOrder $order
+     * @param EffectConnect\PHPSdk\Core\Model\Response\Order $order
      */
-    public static function setEffectConnectOrder(EffectConnectOrder $order)
+    public static function setEffectConnectOrder(EffectConnect\PHPSdk\Core\Model\Response\Order $order)
     {
         // TODO:
         //  Can we prevent the use of static var to link the EffectConnectOrder to a specific cart?
@@ -25,7 +22,7 @@ class Cart extends CartCore
     }
 
     /**
-     * @return EffectConnectOrder|null
+     * @return EffectConnect\PHPSdk\Core\Model\Response\Order|null
      */
     public function getEffectConnectOrder()
     {
@@ -44,8 +41,8 @@ class Cart extends CartCore
     public function getPackageShippingCost($id_carrier = null, $use_tax = true, Country $default_country = null, $product_list = null, $id_zone = null, bool $keepOrderPrices = false)
     {
         $ecOrder = self::getEffectConnectOrder();
-        if ($ecOrder instanceof EffectConnectOrder) {
-            $shippingCost = ShippingCostCalculator::calculate($ecOrder, intval($id_carrier), boolval($use_tax));
+        if ($ecOrder instanceof EffectConnect\PHPSdk\Core\Model\Response\Order) {
+            $shippingCost = EffectConnect\Marketplaces\Service\ShippingCostCalculator::calculate($ecOrder, intval($id_carrier), boolval($use_tax));
             return round($shippingCost, 9); // Without rounding price is not valid accordingly to PS's function 'isPrice'
         }
         return parent::getPackageShippingCost($id_carrier, $use_tax, $default_country, $product_list, $id_zone, $keepOrderPrices);
