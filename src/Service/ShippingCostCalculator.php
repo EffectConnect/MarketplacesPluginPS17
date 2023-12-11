@@ -29,6 +29,15 @@ class ShippingCostCalculator
                     $feeAmount += $fee->getAmount(); // TODO: currency conversion? $sourceCurrency->convert($fee->getAmount(), $destinationCurrency);
                 }
             }
+
+            foreach ($order->getLines() as $line) {
+                foreach ($line->getFees() as $fee) {
+                    if ($fee->getType() !== FeeType::COMMISSION) {
+                        $feeAmount += $fee->getAmount(); // TODO: currency conversion? $sourceCurrency->convert($fee->getAmount(), $destinationCurrency);
+                    }
+                }
+            }
+
             if ($useTax) {
                 $feeAmountExcludingTax = $feeAmount;
             } else {
