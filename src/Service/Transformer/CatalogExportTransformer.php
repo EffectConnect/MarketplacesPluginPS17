@@ -7,6 +7,9 @@ use DOMException;
 use EffectConnect\Marketplaces\Enums\LoggerProcess;
 use EffectConnect\Marketplaces\Exception\InitContextFailedException;
 use EffectConnect\Marketplaces\Helper\LoggerHelper;
+use EffectConnect\Marketplaces\Helper\StringHelper;
+use EffectConnect\Marketplaces\Helper\VenditHelper;
+use EffectConnect\Marketplaces\Model\VenditWarehouse;
 use EffectConnect\Marketplaces\Service\InitContext;
 use EffectConnect\Marketplaces\Service\ProductSearch\ProductSearchProvider;
 use EffectConnect\Marketplaces\Exception\FileCreationFailedException;
@@ -119,6 +122,11 @@ class CatalogExportTransformer extends AbstractTransformer
     protected $_priceFormatter;
 
     /**
+     * @var VenditWarehouse[]
+     */
+    protected $_venditWarehouses = [];
+
+    /**
      * CatalogExportTransformer constructor.
      *
      * @param InitContext $initContext
@@ -173,6 +181,7 @@ class CatalogExportTransformer extends AbstractTransformer
 
         $this->init($connection);
         $this->loadFeatureData();
+        $this->loadVenditWarehouses();
 
         $fileLocation = FileHelper::generateFile(static::CONTENT_TYPE, $this->getShopId());
         try {
@@ -737,6 +746,16 @@ class CatalogExportTransformer extends AbstractTransformer
         return $titles;
     }
 
+    /*
+     * Checks if shop has Vendit warehouse support.
+     */
+    protected function loadVenditWarehouses()
+    {
+        if (VenditHelper::hasWarehouseSupport()) {
+            $this->_venditWarehouses = VenditHelper::getWarehouses();
+        }
+    }
+
     /**
      * @return array
      */
@@ -809,7 +828,8 @@ class CatalogExportTransformer extends AbstractTransformer
         // Get fixed attributes
         $attributesExport = array_merge(
             $this->getProductAttributeAvailableForOrder($product),
-            $this->getProductAttributeDimensions($product)
+            $this->getProductAttributeDimensions($product),
+            $this->getProductAttributeVenditWarehouse($product)
         );
 
         $attributeValuesExport = [];
@@ -1149,6 +1169,67 @@ class CatalogExportTransformer extends AbstractTransformer
             $attributeCode = 'base_' . $dimensionAttribute;
             $attributesExport[$attributeCode] = [
                 'code'   => $attributeCode,
+                'names' => [
+                    'name' => $attributeNames,
+                ],
+                'values' => [
+                    'value' => $attributeValuesExport,
+                ],
+            ];
+        }
+
+        return $attributesExport;
+    }
+
+    /**
+     * @param Product $product
+     * @return array
+     */
+    protected function getProductAttributeVenditWarehouse(Product $product)
+    {
+        $attributesExport = [];
+
+        if (!VenditHelper::hasWarehouseSupport()) {
+            return $attributesExport;
+        }
+
+        $venditStockData = VenditHelper::getProductStock($product->id);
+
+        /** @var int $warehouseId */
+        foreach ($venditStockData as $warehouseId => $venditStock) {
+            if (!isset($this->_venditWarehouses[$warehouseId])) {
+                continue;
+            }
+
+            $warehouse = $this->_venditWarehouses[$warehouseId];
+
+            $attributeNames = [];
+            $attributeValueNames = [];
+
+            $warehouseAttributeName = "Vendit warehouse " . $warehouse->getName() . " stock";
+            $warehouseAttributeCode = "vendit_warehouse_" . $warehouse->getId() . "_" . StringHelper::slugify($warehouse->getName()) . "_stock";
+
+            foreach ($this->_languages as $languageId => $language) {
+                $attributeNames[] = [
+                    '_attributes' => ['language' => $language['iso_code']],
+                    '_cdata' => $warehouseAttributeName,
+                ];
+
+                $attributeValueNames[] = [
+                    '_attributes' => ['language' => $language['iso_code']],
+                    '_cdata' => (string)$venditStock->getQuantity(),
+                ];
+            }
+
+            $attributeValuesExport = [
+                'code' => $venditStock->getQuantity(),
+                'names' => [
+                    'name' => $attributeValueNames,
+                ],
+            ];
+
+            $attributesExport[$warehouseAttributeCode] = [
+                'code' => $warehouseAttributeCode,
                 'names' => [
                     'name' => $attributeNames,
                 ],
