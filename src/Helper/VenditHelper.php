@@ -12,21 +12,34 @@ use Throwable;
 class VenditHelper
 {
     /**
+     * Remembers if the platform has Vendit warehouses support.
+     *
+     * @var null
+     */
+    protected static $_hasWarehouseSupport = null;
+
+    /**
      * Check if the platform has Vendit warehouses support.
      *
      * @return bool
      */
     public static function hasWarehouseSupport(): bool
     {
+        if (self::$_hasWarehouseSupport !== null) {
+            return self::$_hasWarehouseSupport;
+        }
+
         $db = Db::getInstance();
         try {
             $numberOfWarehouses = $db->getValue("SELECT COUNT(*) FROM ps_vms_warehouse");
             $numberOfStockRecords = $db->getValue("SELECT COUNT(*) FROM ps_vms_stock");
+
+            self::$_hasWarehouseSupport = $numberOfWarehouses > 0 && $numberOfStockRecords > 0;
         } catch (Throwable $e) {
-            return false;
+            self::$_hasWarehouseSupport = false;
         }
 
-        return $numberOfWarehouses > 0 && $numberOfStockRecords > 0;
+        return self::$_hasWarehouseSupport;
     }
 
     /**
