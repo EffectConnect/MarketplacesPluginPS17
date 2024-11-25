@@ -212,6 +212,11 @@ class AdminConnectionFormType extends TranslatorAwareType
                 'label'       => $this->trans('API call timeout (optional)', 'Modules.Effectconnectmarketplaces.Admin'),
                 'help'        => $this->trans('Use this to increase the default API call timeout (in seconds, default is 300 seconds) when fetching orders from EffectConnect (for large amount of orders).', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
+            ->add('order_import_invoice_payment_title', TextType::class, [
+                'required'   => false,
+                'label'      => $this->trans('Invoice payment name', 'Modules.Effectconnectmarketplaces.Admin'),
+                'help'       => $this->trans('Name of the payment to print on the invoice (leave this field empty to use the name of the selected payment method).', 'Modules.Effectconnectmarketplaces.Admin'),
+            ])
         ;
     }
 

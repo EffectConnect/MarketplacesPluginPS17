@@ -184,6 +184,13 @@
               </div>
             </div>
             <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.order_import_invoice_payment_title.vars.label, AdminConnectionForm.order_import_invoice_payment_title.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.order_import_invoice_payment_title) }}
+                {{ form_widget(AdminConnectionForm.order_import_invoice_payment_title) }}
+              </div>
+            </div>
+            <div class="form-group row">
               {{ ps.label_with_help(AdminConnectionForm.order_import_id_employee.vars.label, AdminConnectionForm.order_import_id_employee.vars.help) }}
               <div class="col-sm">
                 {{ form_errors(AdminConnectionForm.order_import_id_employee) }}

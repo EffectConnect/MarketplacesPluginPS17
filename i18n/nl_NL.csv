@@ -103,3 +103,5 @@
 "Height","Hoogte"
 "Depth","Diepte"
 "Weight","Gewicht"
+"Invoice payment name","Betaalmethode op factuur"
+"Name of the payment to print on the invoice (leave this field empty to use the name of the selected payment method).","Naam van de betaalmodule op de factuur (indien dit veld wordt leeggelaten, wordt de naam van de gekozen betaalmethode gebruikt)."

@@ -153,6 +153,7 @@ class AbstractApi
                 'order_import_id_payment_module'            => $connection->order_import_id_payment_module,
                 'order_import_send_emails'                  => $connection->order_import_send_emails,
                 'order_import_api_call_timeout'             => $connection->order_import_api_call_timeout,
+                'order_import_invoice_payment_title'        => $connection->order_import_invoice_payment_title,
             ]
         ]);
     }

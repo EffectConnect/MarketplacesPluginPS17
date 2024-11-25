@@ -519,7 +519,7 @@ class OrderImportTransformer extends AbstractTransformer
                 intval($cart->id),
                 $this->getOrderState($order),
                 $cart->getOrderTotal(true, Cart::BOTH), // We use (true, Cart::BOTH), because this is the same way this is done in PaymentModule::validateOrder()
-                $paymentModule->displayName,
+                $this->getConnection()->order_import_invoice_payment_title ?? $paymentModule->displayName,
                 $this->getOrderComment($order),
                 ['ec_send_mail' => boolval($this->getConnection()->order_import_send_emails)],
                 null,
