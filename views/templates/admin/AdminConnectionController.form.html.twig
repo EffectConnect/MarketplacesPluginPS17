@@ -294,7 +294,8 @@
         optionElements.prop('disabled', false);
         let optionElementsToDisable = optionElements.filter(function() {
           let shopIds = $(this).data('shop-id');
-          return typeof shopIds !== 'undefined' && $.inArray(idShop, shopIds) === -1;
+          // Disable list element for given shop ID if a list of available shop IDs is present and it does not contain the given shop ID
+          return Array.isArray(shopIds) && shopIds.length > 0 && !shopIds.map(id => parseInt(id, 10)).includes(parseInt(idShop, 10));
         });
         optionElementsToDisable.prop('disabled', true);
         optionElementsToDisable.prop('selected', false);
