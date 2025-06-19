@@ -773,15 +773,17 @@ class CatalogExportTransformer extends AbstractTransformer
                 continue;
             }
 
-            if (!empty($productLang->description)) {
+            $productDescription = trim($productLang->description);
+            $productDescriptionShort = trim($productLang->description_short);
+            if (!empty($productDescription)) {
                 $descriptions[] = [
                     '_attributes' => ['language' => $languageIsoCode],
-                    '_cdata'      => strval($productLang->description)
+                    '_cdata'      => $productDescription
                 ];
-            } elseif(!empty($productLang->description_short)) {
+            } elseif(!empty($productDescriptionShort)) {
                 $descriptions[] = [
                     '_attributes' => ['language' => $languageIsoCode],
-                    '_cdata'      => strval($productLang->description_short)
+                    '_cdata'      => $productDescriptionShort
                 ];
             }
         }
