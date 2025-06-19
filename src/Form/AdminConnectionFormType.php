@@ -131,6 +131,18 @@ class AdminConnectionFormType extends TranslatorAwareType
                 'help'       => $this->trans('Find your secret key in the API Key Management section in EffectConnect Marketplaces.', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
             // Catalog export fields
+            ->add('catalog_export_active', SwitchType::class, [
+                'required'   => true,
+                'label'      => $this->trans('Catalog export active', 'Modules.Effectconnectmarketplaces.Admin'),
+                'help'       => $this->trans('This process exports the full catalog to EffectConnect Marketplaces.', 'Modules.Effectconnectmarketplaces.Admin')
+                    . ' ' . $this->trans('This setting only determines which connections are included in the cron process. Regardless of this setting, the process will only be executed if a crontab for this process (see documentation) is setup.', 'Modules.Effectconnectmarketplaces.Admin'),
+            ])
+            ->add('offer_export_active', SwitchType::class, [
+                'required'   => true,
+                'label'      => $this->trans('Offer export active', 'Modules.Effectconnectmarketplaces.Admin'),
+                'help'       => $this->trans('This process exports price and stock changes to EffectConnect Marketplaces.', 'Modules.Effectconnectmarketplaces.Admin')
+                    . ' ' . $this->trans('This setting only determines which connections are included in the cron process. Regardless of this setting, the process will only be executed if a crontab for this process (see documentation) is setup.', 'Modules.Effectconnectmarketplaces.Admin'),
+            ])
             ->add('catalog_export_only_active', SwitchType::class, [
                 'required'   => true,
                 'label'      => $this->trans('Only export active products', 'Modules.Effectconnectmarketplaces.Admin'),
@@ -163,6 +175,18 @@ class AdminConnectionFormType extends TranslatorAwareType
                 'help'       => $this->trans('EffectConnect only supports products with a valid EAN or products without an EAN. Multiple products with the same EAN will only be exported once.', 'Modules.Effectconnectmarketplaces.Admin'),
             ])
             // Order import fields
+            ->add('order_import_active', SwitchType::class, [
+                'required'   => true,
+                'label'      => $this->trans('Order import active', 'Modules.Effectconnectmarketplaces.Admin'),
+                'help'       => $this->trans('This process imports orders from EffectConnect Marketplaces.', 'Modules.Effectconnectmarketplaces.Admin')
+                    . ' ' . $this->trans('This setting only determines which connections are included in the cron process. Regardless of this setting, the process will only be executed if a crontab for this process (see documentation) is setup.', 'Modules.Effectconnectmarketplaces.Admin'),
+            ])
+            ->add('shipment_export_active', SwitchType::class, [
+                'required'   => true,
+                'label'      => $this->trans('Shipment export active', 'Modules.Effectconnectmarketplaces.Admin'),
+                'help'       => $this->trans('This process exports shipments and tracking codes to EffectConnect Marketplaces.', 'Modules.Effectconnectmarketplaces.Admin')
+                    . ' ' . $this->trans('This setting only determines which connections are included in the cron process. Regardless of this setting, the process will only be executed if a crontab for this process (see documentation) is setup.', 'Modules.Effectconnectmarketplaces.Admin'),
+            ])
             ->add('order_import_id_group', ChoiceType::class, [
                 'choices'     => $this->_groupChoiceProvider->getChoices(),
                 'choice_attr' => $this->_groupChoiceProvider->getChoicesAttributes(),

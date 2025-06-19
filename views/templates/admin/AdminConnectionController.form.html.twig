@@ -79,6 +79,20 @@
         <div class="card-block row">
           <div class="card-text">
             <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.catalog_export_active.vars.label, AdminConnectionForm.catalog_export_active.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.catalog_export_active) }}
+                {{ form_widget(AdminConnectionForm.catalog_export_active) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.offer_export_active.vars.label, AdminConnectionForm.offer_export_active.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.offer_export_active) }}
+                {{ form_widget(AdminConnectionForm.offer_export_active) }}
+              </div>
+            </div>
+            <div class="form-group row">
               {{ ps.label_with_help(AdminConnectionForm.catalog_export_only_active.vars.label, AdminConnectionForm.catalog_export_only_active.vars.help) }}
               <div class="col-sm">
                 {{ form_errors(AdminConnectionForm.catalog_export_only_active) }}
@@ -140,6 +154,20 @@
         </h3>
         <div class="card-block row">
           <div class="card-text">
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.order_import_active.vars.label, AdminConnectionForm.order_import_active.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.order_import_active) }}
+                {{ form_widget(AdminConnectionForm.order_import_active) }}
+              </div>
+            </div>
+            <div class="form-group row">
+              {{ ps.label_with_help(AdminConnectionForm.shipment_export_active.vars.label, AdminConnectionForm.shipment_export_active.vars.help) }}
+              <div class="col-sm">
+                {{ form_errors(AdminConnectionForm.shipment_export_active) }}
+                {{ form_widget(AdminConnectionForm.shipment_export_active) }}
+              </div>
+            </div>
             <div class="form-group row">
               {{ ps.label_with_help(AdminConnectionForm.order_import_id_group.vars.label, AdminConnectionForm.order_import_id_group.vars.help) }}
               <div class="col-sm">

@@ -111,6 +111,26 @@ class Connection extends AbstractModel
     public $order_import_invoice_payment_title;
 
     /**
+     * @var bool
+     */
+    public $catalog_export_active = true;
+
+    /**
+     * @var bool
+     */
+    public $offer_export_active = true;
+
+    /**
+     * @var bool
+     */
+    public $order_import_active = true;
+
+    /**
+     * @var bool
+     */
+    public $shipment_export_active = true;
+
+    /**
      * @var array
      */
     public static $definition = [
@@ -208,6 +228,22 @@ class Connection extends AbstractModel
                 'size'       => 255,
                 'allow_null' => true,
             ],
+            'catalog_export_active' => [
+                'type'     => self::TYPE_BOOL,
+                'required' => true
+            ],
+            'offer_export_active' => [
+                'type'     => self::TYPE_BOOL,
+                'required' => true
+            ],
+            'order_import_active' => [
+                'type'     => self::TYPE_BOOL,
+                'required' => true
+            ],
+            'shipment_export_active' => [
+                'type'     => self::TYPE_BOOL,
+                'required' => true
+            ],
         ]
     ];
 
@@ -253,6 +289,10 @@ class Connection extends AbstractModel
                     `order_import_send_emails` TINYINT(1) NOT NULL DEFAULT \'0\',
                     `order_import_api_call_timeout` INT(11) UNSIGNED NULL DEFAULT NULL,
                     `order_import_invoice_payment_title` VARCHAR(255) NULL DEFAULT NULL,
+                    `catalog_export_active` TINYINT(1) NOT NULL DEFAULT \'1\',
+                    `offer_export_active` TINYINT(1) NOT NULL DEFAULT \'1\',
+                    `order_import_active` TINYINT(1) NOT NULL DEFAULT \'1\',
+                    `shipment_export_active` TINYINT(1) NOT NULL DEFAULT \'1\',
                     PRIMARY KEY (`id_connection`)
                     ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8')
             ;
@@ -292,6 +332,20 @@ class Connection extends AbstractModel
     public static function addDbFieldOrderImportInvoicePaymentTitle()
     {
         return Db::getInstance()->execute('ALTER TABLE  `' . _DB_PREFIX_ . self::$definition['table'] . '` ADD COLUMN `order_import_invoice_payment_title` VARCHAR(255) NULL DEFAULT NULL AFTER `order_import_api_call_timeout`');
+    }
+
+    /**
+     * Version 3.1.33 database migration.
+     * @return bool
+     */
+    public static function addDbFieldsActiveProcesses()
+    {
+        return Db::getInstance()->execute('ALTER TABLE  `' . _DB_PREFIX_ . self::$definition['table'] . '`' .
+            ' ADD COLUMN `catalog_export_active` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `order_import_invoice_payment_title`,' .
+            ' ADD COLUMN `offer_export_active` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `catalog_export_active`,' .
+            ' ADD COLUMN `order_import_active` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `offer_export_active`,' .
+            ' ADD COLUMN `shipment_export_active` TINYINT(1) NOT NULL DEFAULT \'1\' AFTER `order_import_active`'
+        );
     }
 
     /**

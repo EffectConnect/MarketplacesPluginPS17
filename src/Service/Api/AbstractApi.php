@@ -154,6 +154,10 @@ class AbstractApi
                 'order_import_send_emails'                  => $connection->order_import_send_emails,
                 'order_import_api_call_timeout'             => $connection->order_import_api_call_timeout,
                 'order_import_invoice_payment_title'        => $connection->order_import_invoice_payment_title,
+                'catalog_export_active'                     => $connection->catalog_export_active,
+                'offer_export_active'                       => $connection->offer_export_active,
+                'order_import_active'                       => $connection->order_import_active,
+                'shipment_export_active'                    => $connection->shipment_export_active,
             ]
         ]);
     }

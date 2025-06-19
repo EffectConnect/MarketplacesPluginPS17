@@ -49,6 +49,18 @@ class CatalogExportApi extends AbstractApi
     {
         $this->logStart($connection);
 
+        if (false === boolval($connection->catalog_export_active))
+        {
+            $this->_logger->warning('Catalog export skipped because process is disabled for current connection.', [
+                'process'    => static::LOGGER_PROCESS,
+                'connection' => [
+                    'id' => $connection->id
+                ]
+            ]);
+            $this->logEnd($connection);
+            return;
+        }
+
         if (false === boolval($connection->is_active))
         {
             $this->_logger->warning('Catalog export skipped because connection is not active.', [

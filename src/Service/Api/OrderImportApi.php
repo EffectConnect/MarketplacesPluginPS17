@@ -82,9 +82,21 @@ class OrderImportApi extends AbstractApi
     {
         $this->logStart($connection);
 
+        if (false === boolval($connection->order_import_active))
+        {
+            $this->_logger->warning('Order import skipped because process is disabled for current connection.', [
+                'process'    => static::LOGGER_PROCESS,
+                'connection' => [
+                    'id' => $connection->id
+                ]
+            ]);
+            $this->logEnd($connection);
+            return;
+        }
+
         if (false === boolval($connection->is_active))
         {
-            $this->_logger->warning('Catalog export skipped because connection is not active.', [
+            $this->_logger->warning('Order import skipped because connection is not active.', [
                 'process'    => static::LOGGER_PROCESS,
                 'connection' => [
                     'id' => $connection->id
