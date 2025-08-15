@@ -12,5 +12,5 @@ class ApiCallFailedException extends AbstractException
     /**
      * @inheritDoc
      */
-    protected const MESSAGE_FORMAT = 'EffectConnect API call failed with message(s): %1.';
+    protected const MESSAGE_FORMAT = 'EffectConnect API call failed with message(s): %s.';
 }
