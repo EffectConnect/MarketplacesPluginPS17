@@ -377,6 +377,9 @@ class OrderImportTransformer extends AbstractTransformer
             // Try to load the product by its id.
             try {
                 $product = new Product($productId, true);
+                if ($product->id === null) {
+                    throw new OrderImportFailedException($this->getConnection()->id, 'Process product - product not found');
+                }
             } catch (PrestaShopDatabaseException $e) {
                 throw new OrderImportFailedException($this->getConnection()->id, 'Process product ' . $productIdentifier . ' - ' . $e->getMessage());
             } catch (PrestaShopException $e) {
@@ -386,7 +389,10 @@ class OrderImportTransformer extends AbstractTransformer
             // Try to load the product and combination by its id.
             if ($combinationId !== null) {
                 try {
-                    new Combination($combinationId);
+                    $combination = new Combination($combinationId);
+                    if ($combination->id === null) {
+                        throw new OrderImportFailedException($this->getConnection()->id, 'Process product (combination) - combination not found');
+                    }
                 } catch (PrestaShopDatabaseException $e) {
                     throw new OrderImportFailedException($this->getConnection()->id, 'Process product (combination) ' . $productIdentifier . ' - ' . $e->getMessage());
                 } catch (PrestaShopException $e) {
