@@ -39,6 +39,7 @@ use State;
 use Symfony\Component\Translation\TranslatorInterface;
 use Tools;
 use Validate;
+use TaxManagerFactory;
 
 /**
  * Class OrderImportTransformer
@@ -112,7 +113,7 @@ class OrderImportTransformer extends AbstractTransformer
         $deliveryAddress     = $this->processAddress($ecOrder->getShippingAddress(), $customer);
         $currency            = $this->processCurrency($ecOrder);
         $cart                = $this->processCart($ecOrder, $customer, $invoiceAddress, $deliveryAddress, $currency);
-        $cart                = $this->processProducts($ecOrder, $cart);
+        $cart                = $this->processProducts($ecOrder, $cart, $deliveryAddress);
         $cart                = $this->processCarrier($cart);
         $paymentModule       = $this->processPayment();
         $order               = $this->processOrder($ecOrder, $cart, $paymentModule);
@@ -355,10 +356,11 @@ class OrderImportTransformer extends AbstractTransformer
     /**
      * @param EffectConnectOrder $order
      * @param Cart $cart
+     * @param Address $deliveryAddress
      * @return Cart
      * @throws OrderImportFailedException
      */
-    protected function processProducts(EffectConnectOrder $order, Cart $cart)
+    protected function processProducts(EffectConnectOrder $order, Cart $cart, Address $deliveryAddress)
     {
         // Support for duplicate products with different prices is unsupported by Prestashop, so we recalculate these prices to average price.
         $recalculatedPricesByProductId          = $this->recalculateDuplicateProductsWithDifferentPrices($order->getLines());
@@ -408,8 +410,20 @@ class OrderImportTransformer extends AbstractTransformer
             $orderLineAmountIncludingTax = $recalculatedPricesByProductId[$effectConnectProductId];
 
             // Convert product price (always includes tax) to price without tax.
-            // TODO: can the tax rate depend on the customer group and how to handle this?
-            $orderLineAmountExcludingTax = $orderLineAmountIncludingTax / (100 + $product->tax_rate) * 100;
+            try {
+                $taxManager = TaxManagerFactory::getManager($deliveryAddress, $product->id_tax_rules_group);
+                $taxCalculator = $taxManager->getTaxCalculator();
+                $taxRate = $taxCalculator->getTotalRate();
+                $orderLineAmountExcludingTax = $orderLineAmountIncludingTax / (100 + $taxRate) * 100;
+            } catch (Exception $e) {
+                $this->_logger->info('Order ' . $order->getIdentifiers()->getEffectConnectNumber() . ' - used tax calculation fallback due to exception (' . $e->getMessage() . ').', [
+                    'process'    => static::LOGGER_PROCESS,
+                    'connection' => [
+                        'id' => $this->getConnection()->id
+                    ]
+                ]);
+                $orderLineAmountExcludingTax = $orderLineAmountIncludingTax / (100 + $product->tax_rate) * 100;
+            }
 
             // Only add specific price if EC price differs from Presta price (and if we did already set one for current product).
             $orderLineAmountExcludingTaxRounded = Tools::ps_round($orderLineAmountExcludingTax, self::PRICE_DECIMALS);

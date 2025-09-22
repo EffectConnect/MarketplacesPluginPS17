@@ -2,7 +2,10 @@
 
 namespace EffectConnect\Marketplaces\Service;
 
+use Address;
 use Carrier;
+use Country;
+use Validate;
 use EffectConnect\Marketplaces\Enums\FeeType;
 use EffectConnect\PHPSdk\Core\Model\Response\Order as EffectConnectOrder;
 
@@ -42,7 +45,24 @@ class ShippingCostCalculator
                 $feeAmountExcludingTax = $feeAmount;
             } else {
                 $carrier               = new Carrier($idCarrier);
-                $carrierTaxRate        = $carrier->getTaxesRate(); // TODO: use address ID?
+                $effectConnectAddress  = $order->getShippingAddress();
+                $address               = new Address();
+                $address->id_customer  = 0;
+                $address->firstname    = $effectConnectAddress->getFirstName();
+                $address->lastname     = $effectConnectAddress->getLastName();
+                $address->company      = $effectConnectAddress->getCompany();
+                $address->postcode     = $effectConnectAddress->getZipCode();
+                $address->phone        = $effectConnectAddress->getPhone();
+                $address->vat_number   = $effectConnectAddress->getTaxNumber();
+                $address->city         = $effectConnectAddress->getCity();
+                $address->country      = $effectConnectAddress->getCountry();
+                if (Validate::isLanguageIsoCode($effectConnectAddress->getCountry())) {
+                    $idCountry = Country::getByIso($effectConnectAddress->getCountry());
+                    if ($idCountry) {
+                        $address->id_country = $idCountry;
+                    }
+                }
+                $carrierTaxRate        = $carrier->getTaxesRate($address);
                 $feeAmountExcludingTax = $feeAmount / (100 + $carrierTaxRate) * 100;
             }
         }
