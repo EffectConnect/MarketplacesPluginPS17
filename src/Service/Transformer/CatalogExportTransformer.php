@@ -834,6 +834,7 @@ class CatalogExportTransformer extends AbstractTransformer
         $attributesExport = array_merge(
             $this->getProductAttributeAvailableForOrder($product),
             $this->getProductAttributeDimensions($product),
+            $this->getProductLanguageAttributes($product),
             $this->getProductAttributeVenditWarehouse($product),
             $this->getProductAttributeCombinations($product, $idCombination)
         );
@@ -1173,6 +1174,78 @@ class CatalogExportTransformer extends AbstractTransformer
             ];
 
             $attributeCode = 'base_' . $dimensionAttribute;
+            $attributesExport[$attributeCode] = [
+                'code'   => $attributeCode,
+                'names' => [
+                    'name' => $attributeNames,
+                ],
+                'values' => [
+                    'value' => $attributeValuesExport,
+                ],
+            ];
+        }
+
+        return $attributesExport;
+    }
+
+    /**
+     * @param Product $product
+     * @return array
+     */
+    protected function getProductLanguageAttributes(Product $product)
+    {
+        $attributesExport = [];
+
+        $languageAttributes = ['description_short'];
+        foreach ($languageAttributes as $languageAttribute)
+        {
+            $attributeValueCode = $product->id . '_' . $languageAttribute . '_' . StringHelper::slugify(trim($product->{$languageAttribute}));
+
+            $attributeValueNames = [];
+            $languagesWithValues = [];
+            foreach ($this->_languages as $languageId => $language)
+            {
+                try {
+                    $productLang    = $this->getProductLanguageData($languageId);
+                    $attributeValue = trim($productLang->{$languageAttribute});
+                } catch (ProductLoadException $e) {
+                    $attributeValue = '';
+                }
+
+                if (empty($attributeValue)) {
+                    continue;
+                }
+
+                $languagesWithValues[] = $languageId;
+                $attributeValueNames[] = [
+                    '_attributes' => ['language' => $language['iso_code']],
+                    '_cdata'      => $attributeValue,
+                ];
+            }
+
+            $attributeNames = [];
+            foreach ($this->_languages as $languageId => $language)
+            {
+                if (in_array($languageId, $languagesWithValues)) {
+                    $attributeNames[] = [
+                        '_attributes' => ['language' => $language['iso_code']],
+                        '_cdata'      => $this->_translator->trans(ucfirst($languageAttribute), [], 'Modules.Effectconnectmarketplaces.Admin', $language['locale']),
+                    ];
+                }
+            }
+
+            if (count($attributeNames) === 0) {
+                return $attributesExport;
+            }
+
+            $attributeValuesExport = [
+                'code'   => $attributeValueCode,
+                'names' => [
+                    'name' => $attributeValueNames,
+                ],
+            ];
+
+            $attributeCode = 'base_' . $languageAttribute;
             $attributesExport[$attributeCode] = [
                 'code'   => $attributeCode,
                 'names' => [
